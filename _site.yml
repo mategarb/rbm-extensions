@@ -1,6 +1,10 @@
-name: "RBM extensions"
+name: "rbm-extensions"
 navbar:
   title: "RBM extensions"
-left:
-  - text: 'Home'
-href: _site/index.html
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Single-cell data"
+      href: scdata.html
+    - text: "Directionality"
+      href: directionality.html
