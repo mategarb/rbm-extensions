@@ -1,4 +1,5 @@
 name: "rbm-extensions"
+output_dir: "."
 navbar:
   title: "RBM extensions"
   left:
