@@ -4,12 +4,17 @@ output: html_document
 date: "2025-01-11"
 ---
 
-## Including Plots
+## This website contains:
+- a tutorial for running rule-based learning with single-cell transcriptions data
+- a snipet that allows to assume direction for interactions in rule-based model
 
-You can also embed plots, for example:
+## Prerequisits:
+- R / RStudio
+- installation of R packages: R.ROSETTA, igraph, VisuNet, Seurat
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+## R.ROSETTA
+https://komorowskilab.github.io/R.ROSETTA/index.html
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## VisuNet
+https://komorowskilab.github.io/VisuNet/
+
