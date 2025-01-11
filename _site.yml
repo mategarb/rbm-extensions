@@ -3,4 +3,4 @@ navbar:
   title: "RBM extensions"
 left:
   - text: 'Home'
-href: index.html
+href: _site/index.html
