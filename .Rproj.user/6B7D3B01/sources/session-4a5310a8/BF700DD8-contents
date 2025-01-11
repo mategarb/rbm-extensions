@@ -1,0 +1,6 @@
+name: "RBM extensions"
+navbar:
+  title: "RBM extensions"
+left:
+  - text: 'Home'
+href: _site/index.html
