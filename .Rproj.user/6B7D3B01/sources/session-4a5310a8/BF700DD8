@@ -1,7 +1,7 @@
 {
     "id": "BF700DD8",
-    "path": "~/Desktop/website-grn-book/rbm-extensions.github.io/_site.yml",
-    "project_path": "_site.yml",
+    "path": "~/Desktop/website-grn-book/rbm-extensions.github.io/docs.yml",
+    "project_path": "docs.yml",
     "type": "yaml",
     "hash": "2604449398",
     "contents": "",
@@ -21,7 +21,7 @@
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1736603859774,
+    "last_content_update": 1736603859,
     "read_only": false,
     "read_only_alternatives": []
 }
