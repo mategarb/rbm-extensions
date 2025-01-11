@@ -8,6 +8,7 @@ date: "2025-01-11"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Loading libraries and data 
 ```{r block1, echo=T, results = 'hide', message=FALSE, warning=FALSE}
 library(R.ROSETTA)
 library(Seurat)
@@ -19,7 +20,7 @@ library(tidyverse)
 library(ggplot2)
 library(ggpubr)
 library(ggplotify)
-
+library(dplyr)
 # single cell data (Lee et al., 2022) https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-10371/results?plotType=UMAP&plotOption=20&k=6
 path = '/Users/matga374/Downloads/E-MTAB-10371-normalised-files/E-MTAB-10371.aggregated_filtered_normalised_counts.mtx'
 expression_matrix <- ReadMtx(
@@ -27,61 +28,61 @@ expression_matrix <- ReadMtx(
   features = paste0(path, "_rows"),
   cells = paste0(path, "_cols"))
 
-```
-
 genes = expression_matrix@Dimnames[1]
-meta = read.table("/Users/matga374/Downloads/ExpDesign-E-MTAB-10371.tsv", sep = '\t', header = TRUE)
+meta = read.table("/Users/matga374/Downloads/ExpDesign-E-MTAB-10371.tsv", sep = '\t', header = TRUE) # load meta data
 symbols = mapIds(
   org.Mm.eg.db,
   keys = as.matrix(unlist(genes)) %>% as.vector,
   column = 'SYMBOL',
-  keytype = 'ENSEMBL')
-expression_matrix@Dimnames[[1]] <- paste0(unname(symbols),"-", names(symbols))
+  keytype = 'ENSEMBL') # translate ensembl ids to gene names (symbols)
+expression_matrix@Dimnames[[1]] <- paste0(unname(symbols),"-", names(symbols)) # assign them in the expression matrix
 
+```
+## Seurat Part
+```{r block2, echo=T, results = 'hide', message=FALSE, warning=FALSE}
 injr <- CreateSeuratObject(counts = expression_matrix, project = "mm", min.cells = 3, min.features = 200)
 
-# filtration
-
+# Filtration based on experiments that failed
 injr <- subset(injr, cells = which(meta$Sample.Characteristic.post.analysis.well.quality. == "fail"), invert = TRUE)
 
+# Normalization
 injr <- NormalizeData(injr, normalization.method = "LogNormalize", scale.factor = 10000)
+
+# Variability (feature selection)
 injr <- FindVariableFeatures(injr, selection.method = "vst", nfeatures = 2000)
 
 # Identify the 10 most highly variable genes
 top10 <- head(VariableFeatures(injr), 10)
 
-# plot variable features with and without labels
+# Plot variable features with and without labels
 plot1 <- VariableFeaturePlot(injr)
 plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
-plot1 + plot2
-
-
+plot2
+```
+## Dimensionality
+```{r block4, echo=T, results = 'hide', message=FALSE, warning=FALSE}
 all.genes <- rownames(injr)
 injr <- ScaleData(injr, features = all.genes)
-
 injr <- RunPCA(injr, features = VariableFeatures(object = injr))
-DimPlot(injr, reduction = "pca") + NoLegend()
-
 injr <- FindNeighbors(injr, dims = 1:10)
 injr <- FindClusters(injr, resolution = 0.5)
-
 injr <- RunUMAP(injr, dims = 1:10)
-injr <- RunTSNE(injr, dims = 1:10)
-# note that you can set `label = TRUE` or use the LabelClusters function to help label
-# individual clusters
 
+# Only for experiments that didn't fail
 cols = meta$Factor.Value.injury.[-which(meta$Sample.Characteristic.post.analysis.well.quality. == "fail")]
 
-#levels(cols) = c("black","red")
-
-p1 <- DimPlot(injr, reduction = "umap") + labs(color = "cluster")+
+# Individual clusters for UMAP
+DimPlot(injr, reduction = "umap") + labs(color = "cluster")+
   theme(text = element_text(size=18))+ theme(legend.position="top")
 
-p2 <- DimPlot(injr, reduction = "umap", cells.highlight = meta$Assay[cols != "none"], cols.highlight = "red", cols = "gray", order = TRUE)+ 
+# Make colors based on inuries or homeostasis
+DimPlot(injr, reduction = "umap", cells.highlight = meta$Assay[cols != "none"], cols.highlight = "red", cols = "gray", order = TRUE)+ 
   scale_color_manual(labels = c("Homeostasis", "Injury"), values = c("black", "#f587a9")) +
   theme(text = element_text(size=18))+ theme(legend.position="top")
+```
 
-library(dplyr)
+## Preparing input to R.ROSETTA
+```{r block5, echo=T, warning=FALSE}
 counts.df <- injr@assays$RNA@layers$scale.data %>% as.matrix %>% t %>% as.data.frame
 rownames(counts.df) <- injr@assays$RNA@cells@.Data %>% row.names
 colnames(counts.df) <- injr@assays$RNA@features@.Data %>% row.names
@@ -89,46 +90,56 @@ colnames(counts.df) <- injr@assays$RNA@features@.Data %>% row.names
 clusterassignemnts <- data.frame(injr@active.ident)
 counts.df <- cbind(counts.df, clusterassignemnts)
 
-#counts.df = counts.df[-which(counts.df$injr.active.ident == 4),]
-#counts.df = counts.df[-which(counts.df$injr.active.ident == 5),]
-#counts.df = counts.df[-which(counts.df$injr.active.ident == 1),]
-
 outcome = paste0("cluster_",counts.df$injr.active.ident %>% as.character)
-#outcome[outcome == "cluster_0"] <- "cluster0&1"
-#outcome[outcome == "cluster_1"] <- "cluster0&1"
-
-#outcome[outcome == "cluster_2"] <- "cluster2&3"
-#outcome[outcome == "cluster_3"] <- "cluster2&3"
+table(outcome) # Classes are unbalanced
 
 counts.df$injr.active.ident <- outcome
 colnames(counts.df)[ncol(counts.df)] <- "outcome"
-counts.df <- counts.df[,c(head(VariableFeatures(injr), 100), "outcome")]
+counts.df <- counts.df[,c(head(VariableFeatures(injr), 100), "outcome")] # For 100 the most variable genes
 
+# As some of the genes miss their symbols, ensembl id is left
 gnss <- lapply(strsplit(colnames(counts.df),"-"),function(x) x[1]) %>% unlist
 gnse <- lapply(strsplit(colnames(counts.df),"-"),function(x) x[2]) %>% unlist
 
 gnss[which(unlist(gnss)=="NA")] <- gnse[which(unlist(gnss)=="NA")]
-colnames(counts.df) <- gnss
+colnames(counts.df) <- gnss # Replace names of genes
 
-saveRDS(counts.df,"//Users//matga374//Desktop//sc_data_lee_et_al.rds")
+```
 
-
-out_jon_sc <- rosetta(counts.df, discreteParam = 3, underSample = T, underSampleNum = 20,
+```{r block6, echo=T, warning=FALSE, eval=FALSE}
+## Running R.ROSETTA
+out_jon_sc <- rosetta(counts.df, discreteParam = 3, underSample = T, underSampleNum = 1,
                       JohnsonParam = list(Modulo=TRUE, BRT=FALSE, BRTprec=0.9, Precompute=FALSE, Approximate=TRUE, Fraction=0.9))
+```
+
+```{r block66, echo=F, warning=FALSE}
+out_jon_sc <- readRDS('data/rrosetta_model_sc_disc3_us20_johnson09.rds')
+```
+
+```{r block666, echo=T, warning=FALSE, eval=T}
+# quality of learning
 out_jon_sc$quality
 
-out_jon_sc$main
-saveRDS(out_jon_sc,"//Users//matga374//Desktop//rrosetta_model_sc_disc3_us20_johnson09.rds")
-
+# Only significant interactions
 out_jon_sc_signif <- out_jon_sc$main[which(out_jon_sc$main$pValue<0.05),]
+# Exlcuding single rules
 out_jon_sc_signif_double <- out_jon_sc_signif[grep(",",out_jon_sc_signif$features),]
+head(out_jon_sc_signif_double)
+```
 
-
-
-
+```{r block7, echo=T, results = 'hide', message=FALSE, warning=FALSE, eval=FALSE}
 require(VisuNet)
 
 vis_out <- visunet(out_jon_sc_signif_double, type = "RDF")
+```
+
+
+```{r block8, echo=F, warning=FALSE}
+htmltools::includeHTML("data/network-2025-01-03-all.html")
+```
+
+## The distribution of nodes connections, Cullen and Frey graph
+```{r block9, echo=T, results = 'hide', message=FALSE, warning=FALSE}
 rls = out_jon_sc$main[which(out_jon_sc$main$pValue<0.05),]
 rls = rls[which(rls$accuracyRHS>0.55),]
 rls = rls$features[which(rls$coverageRHS>0.2)]
@@ -138,5 +149,19 @@ vals <- unname(table(unlist(strsplit(rls[grep(",",rls)], ","))))
 freqs <- table(vals)
 
 descdist(vals %>% as.numeric, discrete = FALSE,obs.col = "#FF5D1B")
-p5 <- recordPlot()
+```
 
+## The degree distribution of network
+```{r block99, echo=T, results = 'hide', message=FALSE, warning=FALSE}
+df1 <- data.frame(degrees = as.numeric(freqs %>% names), freqs = as.numeric(freqs %>% unname))
+
+  ggplot(df1, aes(x = degrees, y = freqs)) +
+  geom_point(colour = "black", size = 5,alpha = 7/10) +
+  scale_x_continuous("Degree",
+                     trans = "log10") +
+  scale_y_continuous("Frequency",
+                     trans = "log10") +
+  ggtitle("") +
+  theme_bw()+
+  theme(text = element_text(size=18))
+```

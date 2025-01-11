@@ -1,414 +1,4 @@
 <!DOCTYPE html>
-
-<html>
-
-<head>
-
-<meta charset="utf-8" />
-<meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-
-
-
-<meta name="date" content="2025-01-11" />
-
-<title>scdata</title>
-
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<style>h1 {font-size: 34px;}
-       h1.title {font-size: 38px;}
-       h2 {font-size: 30px;}
-       h3 {font-size: 24px;}
-       h4 {font-size: 18px;}
-       h5 {font-size: 16px;}
-       h6 {font-size: 12px;}
-       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
-       pre:not([class]) { background-color: white }</style>
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
-
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
-
-
-
-
-
-
-
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-img {
-  max-width:100%;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-.html-widget {
-  margin-bottom: 20px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-summary {
-  display: list-item;
-}
-details > summary > p:only-child {
-  display: inline;
-}
-pre code {
-  padding: 0;
-}
-</style>
-
-
-<style type="text/css">
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #adb5bd;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
-}
-</style>
-
-<script type="text/javascript">
-// manage active state of menu based on current page
-$(document).ready(function () {
-  // active menu anchor
-  href = window.location.pathname
-  href = href.substr(href.lastIndexOf('/') + 1)
-  if (href === "")
-    href = "index.html";
-  var menuAnchor = $('a[href="' + href + '"]');
-
-  // mark the anchor link active (and if it's in a dropdown, also mark that active)
-  var dropdown = menuAnchor.closest('li.dropdown');
-  if (window.bootstrap) { // Bootstrap 4+
-    menuAnchor.addClass('active');
-    dropdown.find('> .dropdown-toggle').addClass('active');
-  } else { // Bootstrap 3
-    menuAnchor.parent().addClass('active');
-    dropdown.addClass('active');
-  }
-
-  // Navbar adjustments
-  var navHeight = $(".navbar").first().height() + 15;
-  var style = document.createElement('style');
-  var pt = "padding-top: " + navHeight + "px; ";
-  var mt = "margin-top: -" + navHeight + "px; ";
-  var css = "";
-  // offset scroll position for anchor links (for fixed navbar)
-  for (var i = 1; i <= 6; i++) {
-    css += ".section h" + i + "{ " + pt + mt + "}\n";
-  }
-  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
-  document.head.appendChild(style);
-});
-</script>
-
-<!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: transparent;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
-<!-- code folding -->
-
-
-
-
-</head>
-
-<body>
-
-
-<div class="container-fluid main-container">
-
-
-
-
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">RBM extensions</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li>
-  <a href="index.html">Home</a>
-</li>
-<li>
-  <a href="scdata.html">Single-cell data</a>
-</li>
-<li>
-  <a href="directionality.html">Directionality</a>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
-
-<div id="header">
-
-
-
-<h1 class="title toc-ignore">scdata</h1>
-<h4 class="date">2025-01-11</h4>
-
-</div>
-
-
-<div id="loading-libraries-and-data" class="section level2">
-<h2>Loading libraries and data</h2>
-<pre class="r"><code>library(R.ROSETTA)
-library(Seurat)
-library(biomaRt)
-library(AnnotationDbi)
-library(org.Mm.eg.db)
-library(fitdistrplus)
-library(tidyverse)
-library(ggplot2)
-library(ggpubr)
-library(ggplotify)
-library(dplyr)
-# single cell data (Lee et al., 2022) https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-10371/results?plotType=UMAP&amp;plotOption=20&amp;k=6
-path = &#39;/Users/matga374/Downloads/E-MTAB-10371-normalised-files/E-MTAB-10371.aggregated_filtered_normalised_counts.mtx&#39;
-expression_matrix &lt;- ReadMtx(
-  mtx = path,
-  features = paste0(path, &quot;_rows&quot;),
-  cells = paste0(path, &quot;_cols&quot;))
-
-genes = expression_matrix@Dimnames[1]
-meta = read.table(&quot;/Users/matga374/Downloads/ExpDesign-E-MTAB-10371.tsv&quot;, sep = &#39;\t&#39;, header = TRUE) # load meta data
-symbols = mapIds(
-  org.Mm.eg.db,
-  keys = as.matrix(unlist(genes)) %&gt;% as.vector,
-  column = &#39;SYMBOL&#39;,
-  keytype = &#39;ENSEMBL&#39;) # translate ensembl ids to gene names (symbols)
-expression_matrix@Dimnames[[1]] &lt;- paste0(unname(symbols),&quot;-&quot;, names(symbols)) # assign them in the expression matrix</code></pre>
-</div>
-<div id="seurat-part" class="section level2">
-<h2>Seurat Part</h2>
-<pre class="r"><code>injr &lt;- CreateSeuratObject(counts = expression_matrix, project = &quot;mm&quot;, min.cells = 3, min.features = 200)
-
-# Filtration based on experiments that failed
-injr &lt;- subset(injr, cells = which(meta$Sample.Characteristic.post.analysis.well.quality. == &quot;fail&quot;), invert = TRUE)
-
-# Normalization
-injr &lt;- NormalizeData(injr, normalization.method = &quot;LogNormalize&quot;, scale.factor = 10000)
-
-# Variability (feature selection)
-injr &lt;- FindVariableFeatures(injr, selection.method = &quot;vst&quot;, nfeatures = 2000)
-
-# Identify the 10 most highly variable genes
-top10 &lt;- head(VariableFeatures(injr), 10)
-
-# Plot variable features with and without labels
-plot1 &lt;- VariableFeaturePlot(injr)
-plot2 &lt;- LabelPoints(plot = plot1, points = top10, repel = TRUE)
-plot2</code></pre>
-<p><img src="scdata_files/figure-html/block2-1.png" width="672" /> ##
-Dimensionality</p>
-<pre class="r"><code>all.genes &lt;- rownames(injr)
-injr &lt;- ScaleData(injr, features = all.genes)
-injr &lt;- RunPCA(injr, features = VariableFeatures(object = injr))
-injr &lt;- FindNeighbors(injr, dims = 1:10)
-injr &lt;- FindClusters(injr, resolution = 0.5)
-injr &lt;- RunUMAP(injr, dims = 1:10)
-
-# Only for experiments that didn&#39;t fail
-cols = meta$Factor.Value.injury.[-which(meta$Sample.Characteristic.post.analysis.well.quality. == &quot;fail&quot;)]
-
-# Individual clusters for UMAP
-DimPlot(injr, reduction = &quot;umap&quot;) + labs(color = &quot;cluster&quot;)+
-  theme(text = element_text(size=18))+ theme(legend.position=&quot;top&quot;)</code></pre>
-<p><img src="scdata_files/figure-html/block4-1.png" width="672" /></p>
-<pre class="r"><code># Make colors based on inuries or homeostasis
-DimPlot(injr, reduction = &quot;umap&quot;, cells.highlight = meta$Assay[cols != &quot;none&quot;], cols.highlight = &quot;red&quot;, cols = &quot;gray&quot;, order = TRUE)+ 
-  scale_color_manual(labels = c(&quot;Homeostasis&quot;, &quot;Injury&quot;), values = c(&quot;black&quot;, &quot;#f587a9&quot;)) +
-  theme(text = element_text(size=18))+ theme(legend.position=&quot;top&quot;)</code></pre>
-<p><img src="scdata_files/figure-html/block4-2.png" width="672" /></p>
-</div>
-<div id="preparing-input-to-r.rosetta" class="section level2">
-<h2>Preparing input to R.ROSETTA</h2>
-<pre class="r"><code>counts.df &lt;- injr@assays$RNA@layers$scale.data %&gt;% as.matrix %&gt;% t %&gt;% as.data.frame
-rownames(counts.df) &lt;- injr@assays$RNA@cells@.Data %&gt;% row.names
-colnames(counts.df) &lt;- injr@assays$RNA@features@.Data %&gt;% row.names
-
-clusterassignemnts &lt;- data.frame(injr@active.ident)
-counts.df &lt;- cbind(counts.df, clusterassignemnts)
-
-outcome = paste0(&quot;cluster_&quot;,counts.df$injr.active.ident %&gt;% as.character)
-table(outcome) # Classes are unbalanced</code></pre>
-<pre><code>## outcome
-## cluster_0 cluster_1 cluster_2 cluster_3 cluster_4 cluster_5 
-##       205       196       112       111        91        72</code></pre>
-<pre class="r"><code>counts.df$injr.active.ident &lt;- outcome
-colnames(counts.df)[ncol(counts.df)] &lt;- &quot;outcome&quot;
-counts.df &lt;- counts.df[,c(head(VariableFeatures(injr), 100), &quot;outcome&quot;)] # For 100 the most variable genes
-
-# As some of the genes miss their symbols, ensembl id is left
-gnss &lt;- lapply(strsplit(colnames(counts.df),&quot;-&quot;),function(x) x[1]) %&gt;% unlist
-gnse &lt;- lapply(strsplit(colnames(counts.df),&quot;-&quot;),function(x) x[2]) %&gt;% unlist
-
-gnss[which(unlist(gnss)==&quot;NA&quot;)] &lt;- gnse[which(unlist(gnss)==&quot;NA&quot;)]
-colnames(counts.df) &lt;- gnss # Replace names of genes</code></pre>
-<pre class="r"><code>## Running R.ROSETTA
-out_jon_sc &lt;- rosetta(counts.df, discreteParam = 3, underSample = T, underSampleNum = 1,
-                      JohnsonParam = list(Modulo=TRUE, BRT=FALSE, BRTprec=0.9, Precompute=FALSE, Approximate=TRUE, Fraction=0.9))</code></pre>
-<pre class="r"><code># quality of learning
-out_jon_sc$quality</code></pre>
-<pre><code>##  accuracyMean accuracyMedian accuracyStd accuracyMin accuracyMax
-##     0.4725942      0.4739663  0.07239155   0.3589147     0.58354</code></pre>
-<pre class="r"><code># Only significant interactions
-out_jon_sc_signif &lt;- out_jon_sc$main[which(out_jon_sc$main$pValue&lt;0.05),]
-# Exlcuding single rules
-out_jon_sc_signif_double &lt;- out_jon_sc_signif[grep(&quot;,&quot;,out_jon_sc_signif$features),]
-head(out_jon_sc_signif_double)</code></pre>
-<pre><code>##         features levels  decision                cuts supportLHS supportRHS
-## 6      Gkn2,Atf3    1,3 cluster_4 value&lt;cut,value&gt;cut         28         26
-## 7   Muc5ac,Rpl10    3,3 cluster_5 value&gt;cut,value&gt;cut         41         31
-## 8      Gkn1,Atf3    1,3 cluster_4 value&lt;cut,value&gt;cut         26         23
-## 10 Rpl10,Fam120a    3,1 cluster_5 value&gt;cut,value&lt;cut         31         24
-## 11     Tff1,Irs2    1,3 cluster_4 value&lt;cut,value&gt;cut         26         22
-## 12     Tff1,Atf3    1,3 cluster_4 value&lt;cut,value&gt;cut         26         22
-##    accuracyRHS coverageLHS coverageRHS stabilityLHS stabilityRHS     cut1
-## 6      0.89702     0.07326     0.39004            1            1 -0.52460
-## 7      0.75610     0.10540     0.46269            1            1 -0.00250
-## 8      0.88338     0.06628     0.35405            1            1 -0.49007
-## 10     0.75562     0.08062     0.36667            1            1  0.24032
-## 11     0.84259     0.06571     0.33405            1            1 -0.41800
-## 12     0.84900     0.06812     0.35429            1            1 -0.37315
-##        cut2 cut3 cut4 supportRatioLHS supportRatioRHS       pValue riskRatio
-## 6   0.61075  NaN  NaN         0.30769         0.28571 6.989499e-24 129.09722
-## 7   0.26260  NaN  NaN         0.56944         0.43056 8.870230e-24  30.78472
-## 8   0.53475  NaN  NaN         0.28571         0.25275 1.800291e-19  76.13426
-## 10 -0.57080  NaN  NaN         0.43056         0.33333 9.121069e-18  34.04762
-## 11  0.26605  NaN  NaN         0.28571         0.24176 1.479459e-17  54.61806
-## 12  0.56390  NaN  NaN         0.28571         0.24176 1.479459e-17  54.61806
-##    pValueRiskRatio confIntRiskRatio
-## 6                0   31.278:532.841
-## 7                0     15.748:60.18
-## 8                0    23.43:247.389
-## 10               0    15.203:76.253
-## 11               0   19.355:154.129
-## 12               0   19.355:154.129</code></pre>
-<pre class="r"><code>require(VisuNet)
-
-vis_out &lt;- visunet(out_jon_sc_signif_double, type = &quot;RDF&quot;)</code></pre>
-<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -1770,7 +1360,7 @@ function resetOneCluster(node, options, network){
         var final_shape;
         var shape_group = false;
         var is_group = false;
-      // have a group information & a shape defined in group ?
+  	  // have a group information & a shape defined in group ?
         if(node.options.group !== undefined && options.groups !== undefined){
           if(options.groups[node.options.group] !== undefined){
             is_group = true;
@@ -1808,7 +1398,7 @@ function resetOneCluster(node, options, network){
         } else {
           simpleResetNode(node, "cluster");
         }
-         // finally, get back label
+    	 // finally, get back label
         if (node.options.hiddenLabel !== undefined) {
           node.setOptions({label : node.options.hiddenLabel, hiddenLabel : undefined});
         }
@@ -1826,7 +1416,7 @@ function resetOneNode(node, options, network){
         var final_shape;
         var shape_group = false;
         var is_group = false;
-      // have a group information & a shape defined in group ?
+  	  // have a group information & a shape defined in group ?
         if(node.group !== undefined && options.groups !== undefined){
           if(options.groups[node.group] !== undefined){
             is_group = true;
@@ -1866,8 +1456,8 @@ function resetOneNode(node, options, network){
         } else {
           simpleResetNode(node, "node");
         }
-         // finally, get back label
-          if (node.hiddenLabel !== undefined) {
+    	 // finally, get back label
+    	  if (node.hiddenLabel !== undefined) {
           node.label = node.hiddenLabel;
           node.hiddenLabel = undefined;
         }
@@ -1905,7 +1495,7 @@ function resetAllNodes(nodes, update, options, network, all){
 
   for (var i = 0; i < nodesToReset.length; i++) {
     resetOneNode(nodesToReset[i], options, network, type = "node");
-    // reset coordinates
+	// reset coordinates
     nodesToReset[i].x = undefined;
     nodesToReset[i].y = undefined;
     if(have_cluster_nodes){
@@ -2277,14 +1867,14 @@ function clone(obj) {
 }
 // update a list
 function update(source, target) {
-    Object.keys(target).forEach(function (k) {
-        if (typeof target[k] === 'object' && k !== "container") {
-            source[k] = source[k] || {};
-            update(source[k], target[k]);
-        } else {
-            source[k] = target[k];
-        }
-    });
+	Object.keys(target).forEach(function (k) {
+		if (typeof target[k] === 'object' && k !== "container") {
+			source[k] = source[k] || {};
+			update(source[k], target[k]);
+		} else {
+			source[k] = target[k];
+		}
+	});
 }
 // for find element
 function indexOf(needle, str) {
@@ -2788,7 +2378,7 @@ if (HTMLWidgets.shinyMode){
         var network = el.chart;
         var newnodes = new vis.DataSet();
         var newedges = new vis.DataSet();
-        
+		
         newnodes.add(visNetworkdataframeToD3(data.nodes, "nodes"));
         newedges.add(visNetworkdataframeToD3(data.edges, "edges"));
         var newdata = {
@@ -2862,7 +2452,7 @@ if (HTMLWidgets.shinyMode){
         }else{
           pos = network.getPositions();
         }
-        // return positions in shiny
+		// return positions in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
@@ -2897,7 +2487,7 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos = network.getSelectedEdges();
-            // return  in shiny
+		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
@@ -2909,7 +2499,7 @@ if (HTMLWidgets.shinyMode){
       if(el){
         var network = el.chart;
         var pos = network.getSelectedNodes();
-            // return  in shiny
+		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
@@ -2960,7 +2550,7 @@ if (HTMLWidgets.shinyMode){
         
         pos = network.getSelection();
 
-            // return  in shiny
+		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
@@ -2975,7 +2565,7 @@ if (HTMLWidgets.shinyMode){
         
         pos = network.getScale();
 
-            // return  in shiny
+		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
@@ -3000,7 +2590,7 @@ if (HTMLWidgets.shinyMode){
         
         pos = network.getViewPosition();
 
-            // return  in shiny
+		    // return  in shiny
         Shiny.onInputChange(data.input, pos);
       }
   });
@@ -3011,7 +2601,7 @@ if (HTMLWidgets.shinyMode){
       var el = document.getElementById("graph"+data.id);
       if(el){
         var network = el.chart;
-            // return  in shiny
+		    // return  in shiny
         Shiny.onInputChange(data.input, network.getOptionsFromConfigurator());
       }
   });
@@ -3522,6 +3112,7 @@ HTMLWidgets.widget({
     var data;
     var nodes;
     var edges;
+
 
     // clustergin by zoom variables
     var clusterIndex = 0;
@@ -5719,87 +5310,9 @@ HTMLWidgets.widget({
 </head>
 <body style="background-color: white;">
 <div id="htmlwidget_container">
-  <div id="htmlwidget-25a27e0328daab6dd7ac" style="width:100%;height:800px;" class="visNetwork html-widget"></div>
+  <div id="htmlwidget-14962b813dc0ba32dd9b" style="width:100%;height:800px;" class="visNetwork html-widget"></div>
 </div>
-<script type="application/json" data-for="htmlwidget-25a27e0328daab6dd7ac">{"x":{"nodes":{"id":["Atp4b=3","Atf3=3","Irs2=3","Dmbt1=3","Gm12918=3","Atp4a=3","Gkn1=1","Rpl10=3","Nr4a1=3","H2ac8=3","Ppp2r1b=3","Ghrl=2","Sprr1a=2","Pcdh1=2","Gkn2=1","Dusp1=3","Tff1=1","Spp1=2","Muc5ac=3","H2ac8=2","Fam120a=1","Try4=2","Tff2=3","Nupr1=2","Ghrl=3","Ccn1=3","Irs2=2","Lgr4=1","Jun=1","ENSMUSG00000095891=2","Pnliprp2=3","ENSMUSG00000114367=2","Sprr1a=3","Fam120a=3","ENSMUSG00000075015=3","Tff1=2","ENSMUSG00000075015=1","ENSMUSG00000095186=2","Pla2g1b=1","ENSMUSG00000095186=3","Rpl10=2","Pla2g1b=2","Tmed6=2","Fxyd6=2","Pam=3","ENSMUSG00000095547=2","ENSMUSG00000091028=3","Sptssb=3","Gsdma2=3","ENSMUSG00000096519=1","Muc5ac=1","Cela1=3","Tmed6=3","Lypd8l=2","Slc39a1=1","Cbx3=1","Try4=3","Mucl3=2","ENSMUSG00000095186=1","Ppp2r1b=1","Cbx3=3","Hspa1a=1","Hspa1b=1","Gm12918=2","Fos=1","Amer1=3","ENSMUSG00000075014=3","ENSMUSG00000075015=2","Plec=3","Gsta1=3","Gkn3=2","ENSMUSG00000113795=2","Zc3h4=3","ENSMUSG00000114367=1","Amer1=2","Pga5=3","Hspa1a=2","Sprr2a3=1","Nfkbiz=2","Lgr4=3","ENSMUSG00000118642=2","Aqp5=1","Mt1=1","ENSMUSG00000111824=1","ENSMUSG00000105207=2","Mt2=3","ENSMUSG00000075014=2","Aqp5=2","ENSMUSG00000095891=1","Hspa1b=2","Pnliprp2=1","Dmbt1=2","Tff1=3","ENSMUSG00000096519=2","Krt7=2"],"label":["Atp4b","Atf3","Irs2","Dmbt1","Gm12918","Atp4a","Gkn1","Rpl10","Nr4a1","H2ac8","Ppp2r1b","Ghrl","Sprr1a","Pcdh1","Gkn2","Dusp1","Tff1","Spp1","Muc5ac","H2ac8","Fam120a","Try4","Tff2","Nupr1","Ghrl","Ccn1","Irs2","Lgr4","Jun","ENSMUSG00000095891","Pnliprp2","ENSMUSG00000114367","Sprr1a","Fam120a","ENSMUSG00000075015","Tff1","ENSMUSG00000075015","ENSMUSG00000095186","Pla2g1b","ENSMUSG00000095186","Rpl10","Pla2g1b","Tmed6","Fxyd6","Pam","ENSMUSG00000095547","ENSMUSG00000091028","Sptssb","Gsdma2","ENSMUSG00000096519","Muc5ac","Cela1","Tmed6","Lypd8l","Slc39a1","Cbx3","Try4","Mucl3","ENSMUSG00000095186","Ppp2r1b","Cbx3","Hspa1a","Hspa1b","Gm12918","Fos","Amer1","ENSMUSG00000075014","ENSMUSG00000075015","Plec","Gsta1","Gkn3","ENSMUSG00000113795","Zc3h4","ENSMUSG00000114367","Amer1","Pga5","Hspa1a","Sprr2a3","Nfkbiz","Lgr4","ENSMUSG00000118642","Aqp5","Mt1","ENSMUSG00000111824","ENSMUSG00000105207","Mt2","ENSMUSG00000075014","Aqp5","ENSMUSG00000095891","Hspa1b","Pnliprp2","Dmbt1","Tff1","ENSMUSG00000096519","Krt7"],"DiscState":["3","3","3","3","3","3","1","3","3","3","3","2","2","2","1","3","1","2","3","2","1","2","3","2","3","3","2","1","1","2","3","2","3","3","3","2","1","2","1","3","2","2","2","2","3","2","3","3","3","1","1","3","3","2","1","1","3","2","1","1","3","1","1","2","1","3","3","2","3","3","2","2","3","1","2","3","2","1","2","3","2","1","1","1","2","3","2","2","1","2","1","2","3","2","2"],"color.background":["#E69F00","#E69F00","#E69F00","#E69F00","#E69F00","#E69F00","#56B4E9","#E69F00","#E69F00","#E69F00","#E69F00","#999999","#999999","#999999","#56B4E9","#E69F00","#56B4E9","#999999","#E69F00","#999999","#56B4E9","#999999","#E69F00","#999999","#E69F00","#E69F00","#999999","#56B4E9","#56B4E9","#999999","#E69F00","#999999","#E69F00","#E69F00","#E69F00","#999999","#56B4E9","#999999","#56B4E9","#E69F00","#999999","#999999","#999999","#999999","#E69F00","#999999","#E69F00","#E69F00","#E69F00","#56B4E9","#56B4E9","#E69F00","#E69F00","#999999","#56B4E9","#56B4E9","#E69F00","#999999","#56B4E9","#56B4E9","#E69F00","#56B4E9","#56B4E9","#999999","#56B4E9","#E69F00","#E69F00","#999999","#E69F00","#E69F00","#999999","#999999","#E69F00","#56B4E9","#999999","#E69F00","#999999","#56B4E9","#999999","#E69F00","#999999","#56B4E9","#56B4E9","#56B4E9","#999999","#E69F00","#999999","#999999","#56B4E9","#999999","#56B4E9","#999999","#E69F00","#999999","#999999"],"value":[0.2328811111111111,0.2761841666666667,0.24569,0.23892,0.2380933333333333,0.21510375,0.282474,0.294648,0.265104,0.2391433333333333,0.251956,0.220536,0.238495,0.2353425,0.355175,0.2761933333333333,0.34417,0.2362166666666667,0.332905,0.2619633333333333,0.296345,0.24772,0.23423,0.2257566666666667,0.2271466666666667,0.283855,0.2282366666666667,0.249285,0.287075,0.263255,0.23389,0.23315,0.237905,0.220955,0.227775,0.257385,0.22228,0.244425,0.25338,0.23173,0.21484,0.2363,0.216895,0.20354,0.2206,0.22477,0.206955,0.206285,0.202235,0.28358,0.33333,0.20557,0.29851,0.316,0.2397,0.25067,0.25,0.27083,0.26562,0.28551,0.24336,0.2652,0.2984,0.2381,0.26178,0.23438,0.24627,0.27035,0.2136,0.24546,0.24327,0.22844,0.23036,0.22962,0.26866,0.21212,0.22388,0.24194,0.23235,0.24667,0.24242,0.21475,0.21252,0.21633,0.21261,0.2119,0.2039,0.21875,0.22507,0.20635,0.22161,0.22727,0.21212,0.22222,0.22364],"borderWidth":[3.103448275862069,2.068965517241379,1.896551724137931,2.241379310344827,1.03448275862069,1.379310344827586,0.8620689655172414,0.8620689655172414,0.8620689655172414,1.03448275862069,0.8620689655172414,0.8620689655172414,0.6896551724137931,0.6896551724137931,0.3448275862068966,0.5172413793103449,0.3448275862068966,0.5172413793103449,0.3448275862068966,0.5172413793103449,0.3448275862068966,0.5172413793103449,0.5172413793103449,0.5172413793103449,0.5172413793103449,0.3448275862068966,0.5172413793103449,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.3448275862068966,0.1724137931034483,0.1724137931034483,0.3448275862068966,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483,0.1724137931034483],"color.border":["#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2"],"meanAcc":[0.665655,0.81492,0.7426654545454545,0.6513176923076923,0.8227933333333334,0.6455824999999999,0.773776,0.671832,0.7835,0.6638466666666667,0.704478,0.604196,0.666255,0.6758525,0.8512900000000001,0.68753,0.845795,0.678,0.687575,0.6152166666666667,0.80993,0.6380833333333333,0.6639666666666667,0.6609333333333333,0.6555566666666667,0.76389,0.59185,0.804065,0.664075,0.69834,0.756765,0.7,0.71818,0.73476,0.69909,0.60505,0.7299450000000001,0.6214850000000001,0.59375,0.638245,0.688465,0.6328750000000001,0.67883,0.6988799999999999,0.67117,0.6477349999999999,0.6430549999999999,0.63392,0.6342399999999999,0.86364,0.77778,0.6032949999999999,0.76923,0.72787,0.86653,0.8609,0.8421,0.7884100000000001,0.77273,0.71692,0.78753,0.70475,0.6267200000000001,0.78947,0.66937,0.75,0.69998,0.65679,0.77505,0.6751200000000001,0.6744599999999999,0.70228,0.68174,0.67592,0.5625,0.7,0.65217,0.65217,0.64696,0.60016,0.59259,0.66822,0.66479,0.64424,0.64125,0.68881,0.68581,0.63636,0.63563,0.68421,0.62093,0.57692,0.6087,0.6087,0.60053],"meanSupp":[15.11111111111111,17.83333333333333,15.90909090909091,15.38461538461539,15.5,14,18.2,19.6,16.8,15.5,16.2,14.4,15.5,15,23,18.33333333333333,22,15.66666666666667,22,17,19.5,16,15,15,14.33333333333333,18,14.66666666666667,16,19,17.5,15,15.5,15,14.5,15,17,14,16,16.5,15,14,15,14,13.5,14,14,14,13.5,13,19,21,13.5,20,21,16,16,16,17,17,18,16,17,19,15,17,15,16,17,14,16,16,15,15,15,18,14,15,15,15,16,16,14,14,14,14,13,13,14,14,13,14,15,14,14,14],"meanDecisionCoverage":[0.2328811111111111,0.2761841666666667,0.24569,0.23892,0.2380933333333333,0.21510375,0.282474,0.294648,0.265104,0.2391433333333333,0.251956,0.220536,0.238495,0.2353425,0.355175,0.2761933333333333,0.34417,0.2362166666666667,0.332905,0.2619633333333333,0.296345,0.24772,0.23423,0.2257566666666667,0.2271466666666667,0.283855,0.2282366666666667,0.249285,0.287075,0.263255,0.23389,0.23315,0.237905,0.220955,0.227775,0.257385,0.22228,0.244425,0.25338,0.23173,0.21484,0.2363,0.216895,0.20354,0.2206,0.22477,0.206955,0.206285,0.202235,0.28358,0.33333,0.20557,0.29851,0.316,0.2397,0.25067,0.25,0.27083,0.26562,0.28551,0.24336,0.2652,0.2984,0.2381,0.26178,0.23438,0.24627,0.27035,0.2136,0.24546,0.24327,0.22844,0.23036,0.22962,0.26866,0.21212,0.22388,0.24194,0.23235,0.24667,0.24242,0.21475,0.21252,0.21633,0.21261,0.2119,0.2039,0.21875,0.22507,0.20635,0.22161,0.22727,0.21212,0.22222,0.22364],"NRules":[18,12,11,13,6,8,5,5,5,6,5,5,4,4,2,3,2,3,2,3,2,3,3,3,3,2,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"PrecRules":[0.1551724137931035,0.103448275862069,0.09482758620689655,0.1120689655172414,0.05172413793103448,0.06896551724137931,0.04310344827586207,0.04310344827586207,0.04310344827586207,0.05172413793103448,0.04310344827586207,0.04310344827586207,0.03448275862068965,0.03448275862068965,0.01724137931034483,0.02586206896551724,0.01724137931034483,0.02586206896551724,0.01724137931034483,0.02586206896551724,0.01724137931034483,0.02586206896551724,0.02586206896551724,0.02586206896551724,0.02586206896551724,0.01724137931034483,0.02586206896551724,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.01724137931034483,0.008620689655172414,0.008620689655172414,0.01724137931034483,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414,0.008620689655172414],"NodeConnection":[181.94418,176.27739,131.39618,131.10225,76.57382000000001,72.43039999999999,71.04124,68.09031,65.79358999999999,62.08750000000001,57.66162000000001,43.57556,41.999,40.44849,39.43372,38.19144,37.21498,32.02137,31.48675,31.41056,31.09848,31.07204,29.8785,29.68349,28.22885,27.58338,25.96233,25.73008,25.50668,24.9336,22.78842,21.8,21.70904,21.3428,21.09834,20.5717,20.43846,19.97302,19.5,19.33669,19.27702,19.0346,19.00724,18.81964,18.79276,18.50616,18.00554,17.06525,16.49024,16.40916,16.33338,16.32704,15.3846,15.28527,13.86448,13.7744,13.4736,13.40297,13.13641,12.90456,12.60048,11.98075,11.90768,11.84205,11.37929,11.25,11.19968,11.16543,10.8507,10.80192,10.79136,10.5342,10.2261,10.1388,10.125,9.799999999999999,9.782550000000001,9.782550000000001,9.7044,9.60256,9.481439999999999,9.355080000000001,9.30706,9.019360000000001,8.977499999999999,8.95453,8.91553,8.909040000000001,8.898820000000001,8.894729999999999,8.693020000000001,8.6538,8.521800000000001,8.521800000000001,8.40742],"title":["Name: <b>Atp4b=3<\/b><br/>Edges: <b>18<\/b><br/>Connection: <b>181.94<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>15.11<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Atf3=3<\/b><br/>Edges: <b>12<\/b><br/>Connection: <b>176.28<\/b><br/>Mean accuracy: <b>0.81<\/b><br/>Mean support: <b>17.83<\/b><br/>Mean decision coverage: <b>0.28","Name: <b>Irs2=3<\/b><br/>Edges: <b>11<\/b><br/>Connection: <b>131.4<\/b><br/>Mean accuracy: <b>0.74<\/b><br/>Mean support: <b>15.91<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>Dmbt1=3<\/b><br/>Edges: <b>13<\/b><br/>Connection: <b>131.1<\/b><br/>Mean accuracy: <b>0.65<\/b><br/>Mean support: <b>15.38<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Gm12918=3<\/b><br/>Edges: <b>6<\/b><br/>Connection: <b>76.57<\/b><br/>Mean accuracy: <b>0.82<\/b><br/>Mean support: <b>15.5<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Atp4a=3<\/b><br/>Edges: <b>8<\/b><br/>Connection: <b>72.43<\/b><br/>Mean accuracy: <b>0.65<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Gkn1=1<\/b><br/>Edges: <b>5<\/b><br/>Connection: <b>71.04<\/b><br/>Mean accuracy: <b>0.77<\/b><br/>Mean support: <b>18.2<\/b><br/>Mean decision coverage: <b>0.28","Name: <b>Rpl10=3<\/b><br/>Edges: <b>5<\/b><br/>Connection: <b>68.09<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>19.6<\/b><br/>Mean decision coverage: <b>0.29","Name: <b>Nr4a1=3<\/b><br/>Edges: <b>5<\/b><br/>Connection: <b>65.79<\/b><br/>Mean accuracy: <b>0.78<\/b><br/>Mean support: <b>16.8<\/b><br/>Mean decision coverage: <b>0.27","Name: <b>H2ac8=3<\/b><br/>Edges: <b>6<\/b><br/>Connection: <b>62.09<\/b><br/>Mean accuracy: <b>0.66<\/b><br/>Mean support: <b>15.5<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Ppp2r1b=3<\/b><br/>Edges: <b>5<\/b><br/>Connection: <b>57.66<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>16.2<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>Ghrl=2<\/b><br/>Edges: <b>5<\/b><br/>Connection: <b>43.58<\/b><br/>Mean accuracy: <b>0.6<\/b><br/>Mean support: <b>14.4<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Sprr1a=2<\/b><br/>Edges: <b>4<\/b><br/>Connection: <b>42<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>15.5<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Pcdh1=2<\/b><br/>Edges: <b>4<\/b><br/>Connection: <b>40.45<\/b><br/>Mean accuracy: <b>0.68<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Gkn2=1<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>39.43<\/b><br/>Mean accuracy: <b>0.85<\/b><br/>Mean support: <b>23<\/b><br/>Mean decision coverage: <b>0.36","Name: <b>Dusp1=3<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>38.19<\/b><br/>Mean accuracy: <b>0.69<\/b><br/>Mean support: <b>18.33<\/b><br/>Mean decision coverage: <b>0.28","Name: <b>Tff1=1<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>37.21<\/b><br/>Mean accuracy: <b>0.85<\/b><br/>Mean support: <b>22<\/b><br/>Mean decision coverage: <b>0.34","Name: <b>Spp1=2<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>32.02<\/b><br/>Mean accuracy: <b>0.68<\/b><br/>Mean support: <b>15.67<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Muc5ac=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>31.49<\/b><br/>Mean accuracy: <b>0.69<\/b><br/>Mean support: <b>22<\/b><br/>Mean decision coverage: <b>0.33","Name: <b>H2ac8=2<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>31.41<\/b><br/>Mean accuracy: <b>0.62<\/b><br/>Mean support: <b>17<\/b><br/>Mean decision coverage: <b>0.26","Name: <b>Fam120a=1<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>31.1<\/b><br/>Mean accuracy: <b>0.81<\/b><br/>Mean support: <b>19.5<\/b><br/>Mean decision coverage: <b>0.3","Name: <b>Try4=2<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>31.07<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>Tff2=3<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>29.88<\/b><br/>Mean accuracy: <b>0.66<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Nupr1=2<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>29.68<\/b><br/>Mean accuracy: <b>0.66<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Ghrl=3<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>28.23<\/b><br/>Mean accuracy: <b>0.66<\/b><br/>Mean support: <b>14.33<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Ccn1=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>27.58<\/b><br/>Mean accuracy: <b>0.76<\/b><br/>Mean support: <b>18<\/b><br/>Mean decision coverage: <b>0.28","Name: <b>Irs2=2<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>25.96<\/b><br/>Mean accuracy: <b>0.59<\/b><br/>Mean support: <b>14.67<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Lgr4=1<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>25.73<\/b><br/>Mean accuracy: <b>0.8<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>Jun=1<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>25.51<\/b><br/>Mean accuracy: <b>0.66<\/b><br/>Mean support: <b>19<\/b><br/>Mean decision coverage: <b>0.29","Name: <b>ENSMUSG00000095891=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>24.93<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>17.5<\/b><br/>Mean decision coverage: <b>0.26","Name: <b>Pnliprp2=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>22.79<\/b><br/>Mean accuracy: <b>0.76<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>ENSMUSG00000114367=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>21.8<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>15.5<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Sprr1a=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>21.71<\/b><br/>Mean accuracy: <b>0.72<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Fam120a=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>21.34<\/b><br/>Mean accuracy: <b>0.73<\/b><br/>Mean support: <b>14.5<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000075015=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>21.1<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Tff1=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>20.57<\/b><br/>Mean accuracy: <b>0.61<\/b><br/>Mean support: <b>17<\/b><br/>Mean decision coverage: <b>0.26","Name: <b>ENSMUSG00000075015=1<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>20.44<\/b><br/>Mean accuracy: <b>0.73<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000095186=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>19.97<\/b><br/>Mean accuracy: <b>0.62<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Pla2g1b=1<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>19.5<\/b><br/>Mean accuracy: <b>0.59<\/b><br/>Mean support: <b>16.5<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>ENSMUSG00000095186=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>19.34<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Rpl10=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>19.28<\/b><br/>Mean accuracy: <b>0.69<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Pla2g1b=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>19.03<\/b><br/>Mean accuracy: <b>0.63<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Tmed6=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>19.01<\/b><br/>Mean accuracy: <b>0.68<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Fxyd6=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>18.82<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>13.5<\/b><br/>Mean decision coverage: <b>0.2","Name: <b>Pam=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>18.79<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000095547=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>18.51<\/b><br/>Mean accuracy: <b>0.65<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000091028=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>18.01<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Sptssb=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>17.07<\/b><br/>Mean accuracy: <b>0.63<\/b><br/>Mean support: <b>13.5<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Gsdma2=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>16.49<\/b><br/>Mean accuracy: <b>0.63<\/b><br/>Mean support: <b>13<\/b><br/>Mean decision coverage: <b>0.2","Name: <b>ENSMUSG00000096519=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>16.41<\/b><br/>Mean accuracy: <b>0.86<\/b><br/>Mean support: <b>19<\/b><br/>Mean decision coverage: <b>0.28","Name: <b>Muc5ac=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>16.33<\/b><br/>Mean accuracy: <b>0.78<\/b><br/>Mean support: <b>21<\/b><br/>Mean decision coverage: <b>0.33","Name: <b>Cela1=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>16.33<\/b><br/>Mean accuracy: <b>0.6<\/b><br/>Mean support: <b>13.5<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Tmed6=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>15.38<\/b><br/>Mean accuracy: <b>0.77<\/b><br/>Mean support: <b>20<\/b><br/>Mean decision coverage: <b>0.3","Name: <b>Lypd8l=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>15.29<\/b><br/>Mean accuracy: <b>0.73<\/b><br/>Mean support: <b>21<\/b><br/>Mean decision coverage: <b>0.32","Name: <b>Slc39a1=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>13.86<\/b><br/>Mean accuracy: <b>0.87<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Cbx3=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>13.77<\/b><br/>Mean accuracy: <b>0.86<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>Try4=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>13.47<\/b><br/>Mean accuracy: <b>0.84<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>Mucl3=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>13.4<\/b><br/>Mean accuracy: <b>0.79<\/b><br/>Mean support: <b>17<\/b><br/>Mean decision coverage: <b>0.27","Name: <b>ENSMUSG00000095186=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>13.14<\/b><br/>Mean accuracy: <b>0.77<\/b><br/>Mean support: <b>17<\/b><br/>Mean decision coverage: <b>0.27","Name: <b>Ppp2r1b=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>12.9<\/b><br/>Mean accuracy: <b>0.72<\/b><br/>Mean support: <b>18<\/b><br/>Mean decision coverage: <b>0.29","Name: <b>Cbx3=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>12.6<\/b><br/>Mean accuracy: <b>0.79<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Hspa1a=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>11.98<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>17<\/b><br/>Mean decision coverage: <b>0.27","Name: <b>Hspa1b=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>11.91<\/b><br/>Mean accuracy: <b>0.63<\/b><br/>Mean support: <b>19<\/b><br/>Mean decision coverage: <b>0.3","Name: <b>Gm12918=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>11.84<\/b><br/>Mean accuracy: <b>0.79<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Fos=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>11.38<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>17<\/b><br/>Mean decision coverage: <b>0.26","Name: <b>Amer1=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>11.25<\/b><br/>Mean accuracy: <b>0.75<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>ENSMUSG00000075014=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>11.2<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>ENSMUSG00000075015=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>11.17<\/b><br/>Mean accuracy: <b>0.66<\/b><br/>Mean support: <b>17<\/b><br/>Mean decision coverage: <b>0.27","Name: <b>Plec=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>10.85<\/b><br/>Mean accuracy: <b>0.78<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Gsta1=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>10.8<\/b><br/>Mean accuracy: <b>0.68<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>Gkn3=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>10.79<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>ENSMUSG00000113795=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>10.53<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Zc3h4=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>10.23<\/b><br/>Mean accuracy: <b>0.68<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>ENSMUSG00000114367=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>10.14<\/b><br/>Mean accuracy: <b>0.68<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Amer1=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>10.12<\/b><br/>Mean accuracy: <b>0.56<\/b><br/>Mean support: <b>18<\/b><br/>Mean decision coverage: <b>0.27","Name: <b>Pga5=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.8<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Hspa1a=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.78<\/b><br/>Mean accuracy: <b>0.65<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Sprr2a3=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.78<\/b><br/>Mean accuracy: <b>0.65<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Nfkbiz=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.7<\/b><br/>Mean accuracy: <b>0.65<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Lgr4=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.6<\/b><br/>Mean accuracy: <b>0.6<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>ENSMUSG00000118642=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.48<\/b><br/>Mean accuracy: <b>0.59<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Aqp5=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.36<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Mt1=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.31<\/b><br/>Mean accuracy: <b>0.66<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>ENSMUSG00000111824=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.02<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000105207=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.98<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Mt2=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.95<\/b><br/>Mean accuracy: <b>0.69<\/b><br/>Mean support: <b>13<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>ENSMUSG00000075014=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.92<\/b><br/>Mean accuracy: <b>0.69<\/b><br/>Mean support: <b>13<\/b><br/>Mean decision coverage: <b>0.2","Name: <b>Aqp5=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.91<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000095891=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.9<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Hspa1b=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.89<\/b><br/>Mean accuracy: <b>0.68<\/b><br/>Mean support: <b>13<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Pnliprp2=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.69<\/b><br/>Mean accuracy: <b>0.62<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Dmbt1=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.65<\/b><br/>Mean accuracy: <b>0.58<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Tff1=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.52<\/b><br/>Mean accuracy: <b>0.61<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>ENSMUSG00000096519=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.52<\/b><br/>Mean accuracy: <b>0.61<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Krt7=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.41<\/b><br/>Mean accuracy: <b>0.6<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22"],"group":["cluster_2","cluster_4","cluster_4","cluster_1","cluster_5","cluster_2","cluster_4","cluster_5","cluster_4","cluster_5","cluster_4","cluster_2","cluster_3","cluster_1","cluster_4","cluster_4","cluster_4","cluster_2","cluster_1,cluster_5","cluster_1","cluster_5","cluster_2","cluster_1","cluster_2","cluster_2","cluster_4","cluster_2","cluster_5","cluster_1","cluster_2,cluster_4","cluster_4","cluster_2,cluster_4","cluster_1,cluster_5","cluster_2,cluster_4","cluster_5","cluster_2","cluster_2,cluster_4","cluster_2","cluster_1","cluster_1,cluster_5","cluster_1,cluster_4","cluster_2","cluster_2","cluster_2","cluster_2,cluster_4","cluster_2,cluster_4","cluster_2,cluster_5","cluster_2,cluster_5","cluster_1,cluster_2","cluster_4","cluster_4","cluster_2","cluster_3","cluster_2","cluster_5","cluster_5","cluster_4","cluster_4","cluster_4","cluster_5","cluster_4","cluster_1","cluster_1","cluster_1","cluster_1","cluster_4","cluster_5","cluster_1","cluster_5","cluster_1","cluster_2","cluster_2","cluster_1","cluster_1","cluster_1","cluster_2","cluster_5","cluster_3","cluster_1","cluster_1","cluster_4","cluster_2","cluster_3","cluster_2","cluster_2","cluster_2","cluster_4","cluster_1","cluster_0","cluster_4","cluster_2","cluster_1","cluster_5","cluster_1","cluster_1"],"font.size":[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]},"edges":{"from":["Aqp5=1","Atf3=3","Aqp5=2","Atp4b=3","Dmbt1=3","Atp4a=3","Atp4a=3","Atp4b=3","Dmbt1=3","Atp4a=3","Atp4a=3","Atf3=3","Dmbt1=3","Atp4b=3","Atp4b=3","Atp4b=3","Dmbt1=3","Atf3=3","Dusp1=3","Atf3=3","Atp4b=3","Dmbt1=3","Atp4a=3","Atp4b=3","Atp4a=3","Cela1=3","ENSMUSG00000114367=2","Atf3=3","Ccn1=3","Dusp1=3","Atf3=3","Atp4b=3","Cbx3=1","ENSMUSG00000075015=3","Fam120a=1","Atp4b=3","ENSMUSG00000075014=3","ENSMUSG00000075015=3","ENSMUSG00000095186=3","ENSMUSG00000095891=1","Dmbt1=3","H2ac8=2","Atp4b=3","ENSMUSG00000075014=2","ENSMUSG00000091028=3","ENSMUSG00000095186=1","ENSMUSG00000095547=2","ENSMUSG00000095891=2","Gkn1=1","Hspa1b=2","Dmbt1=3","H2ac8=2","Dmbt1=3","Gm12918=3","H2ac8=2","Atp4b=3","Atp4b=3","Ccn1=3","Dmbt1=3","Dmbt1=3","Amer1=3","ENSMUSG00000075015=1","Gkn1=1","Gkn2=1","Mucl3=2","Cela1=3","Atf3=3","Irs2=2","Atf3=3","Gsta1=3","Nupr1=2","Amer1=2","Pcdh1=2","Ghrl=2","Ghrl=3","Gm12918=3","Atp4b=3","Atf3=3","Irs2=3","H2ac8=3","Atf3=3","Atp4b=3","Dusp1=3","Irs2=3","Dmbt1=3","Irs2=3","Fam120a=1","Hspa1a=2","Muc5ac=3","Gm12918=3","Atp4a=3","Atp4b=3","Rpl10=3","Gsdma2=3","Mt1=1","Lgr4=1","Ppp2r1b=3","Sprr1a=2","Atp4b=3","Rpl10=3","Atf3=3","Irs2=3","Irs2=2","Nupr1=2","H2ac8=3","Dmbt1=2","Gm12918=2","Pcdh1=2","Atp4a=3","Ghrl=3","Sprr1a=2","Atp4b=3","Ghrl=2","Ghrl=3","Atf3=3","Dmbt1=3"],"to":["Atp4b=3","Cbx3=3","Dmbt1=3","ENSMUSG00000075015=1","ENSMUSG00000075015=2","ENSMUSG00000091028=3","ENSMUSG00000095186=2","ENSMUSG00000095186=2","ENSMUSG00000095186=3","ENSMUSG00000095547=2","ENSMUSG00000095891=2","ENSMUSG00000096519=1","ENSMUSG00000096519=2","ENSMUSG00000105207=2","ENSMUSG00000111824=1","ENSMUSG00000113795=2","ENSMUSG00000114367=1","ENSMUSG00000114367=2","ENSMUSG00000118642=2","Fam120a=3","Fam120a=3","Fos=1","Fxyd6=2","Fxyd6=2","Ghrl=2","Ghrl=2","Ghrl=2","Gkn1=1","Gkn1=1","Gkn1=1","Gkn2=1","Gkn3=2","Gm12918=3","Gm12918=3","Gm12918=3","Gsdma2=3","H2ac8=3","H2ac8=3","H2ac8=3","H2ac8=3","Hspa1a=1","Hspa1b=1","Irs2=2","Irs2=3","Irs2=3","Irs2=3","Irs2=3","Irs2=3","Irs2=3","Irs2=3","Jun=1","Jun=1","Krt7=2","Lgr4=1","Lgr4=3","Lypd8l=2","Mt2=3","Muc5ac=1","Muc5ac=3","Nfkbiz=2","Nr4a1=3","Nr4a1=3","Nr4a1=3","Nr4a1=3","Nr4a1=3","Nupr1=2","Pam=3","Pam=3","Pcdh1=2","Pcdh1=2","Pga5=3","Pla2g1b=1","Pla2g1b=1","Pla2g1b=2","Pla2g1b=2","Plec=3","Pnliprp2=1","Pnliprp2=3","Pnliprp2=3","Ppp2r1b=1","Ppp2r1b=3","Ppp2r1b=3","Ppp2r1b=3","Ppp2r1b=3","Rpl10=2","Rpl10=2","Rpl10=3","Rpl10=3","Rpl10=3","Slc39a1=1","Spp1=2","Spp1=2","Spp1=2","Sprr1a=2","Sprr1a=2","Sprr1a=3","Sprr1a=3","Sprr2a3=1","Sptssb=3","Sptssb=3","Tff1=1","Tff1=1","Tff1=2","Tff1=2","Tff1=3","Tff2=3","Tff2=3","Tff2=3","Tmed6=2","Tmed6=2","Tmed6=3","Try4=2","Try4=2","Try4=2","Try4=3","Zc3h4=3"],"conn":[9.355079999999999,12.60048,8.909039999999999,8.909039999999999,11.16543,8.521800000000001,8.401540000000001,11.57148,7.68183,6.66408,9,16.40916,8.521800000000001,8.977499999999999,9.019360000000001,10.5342,10.1388,12.8,9.481439999999999,11.5428,9.800000000000001,11.37929,9.737,9.08264,10.05825,7.34786,9,20.31774,11.25,12.96,23.32252,10.79136,13.7744,12.19056,12.9636,8.965450000000001,11.19968,8.907780000000001,11.65486,8.898820000000001,11.98075,11.90768,7.81794,8.91553,9.483739999999999,13.13641,11.84208,15.9336,13.0135,8.894729999999999,15.60636,9.900320000000001,8.40742,12.93008,9.60256,15.28527,8.95453,16.33338,8.047650000000001,9.7044,11.25,11.52942,13.5,16.1112,13.40297,8.979179999999999,10.31576,8.477,10.88892,10.80192,9.800000000000001,10.125,9.375,8.521800000000001,10.5128,10.8507,8.693020000000001,12.792,9.996420000000001,12.90456,13.13641,8.16662,15.75,11.69955,9.33338,9.94364,18.13488,9.782550000000001,23.4391,13.86448,10.71435,12.73986,8.567159999999999,7.52479,9.30706,12.8,8.909039999999999,9.782550000000001,8.898630000000001,8.16662,18.678,18.53698,9.667389999999999,10.90431,8.521800000000001,8.6538,11.84205,9.38265,9.33338,9.673859999999999,15.3846,14.3822,8.647650000000001,8.04219,13.4736,10.2261],"connNorm":[0.1604170963730594,0.3538833336711372,0.1338275602652038,0.1338275602652038,0.2683364908059723,0.1107432360736381,0.1035742431305596,0.2925421251360654,0.06067056850006734,0,0.139249908494893,0.5809280704285301,0.1107432360736381,0.1379086284248841,0.1404040054795762,0.2307073255352304,0.207136563771608,0.3657772092075003,0.1679497252462292,0.2908324401401608,0.1869398665396525,0.2810852088402875,0.1831842823436276,0.1441762811609166,0.2023347811209763,0.04076179938980697,0.139249908494893,0.8139280906967623,0.2733779154957789,0.3753152008164521,0.9930503808639275,0.2460372625487182,0.4238635781060172,0.3294469991690025,0.3755298056276535,0.137190298431835,0.2703782171347636,0.1337524485812834,0.2975126110132805,0.1332183210511821,0.3169397115472888,0.3125838300043755,0.06878441873690762,0.134214445049842,0.1680868338756079,0.3858314326897971,0.3086732534447053,0.5525787748688229,0.3785044667606954,0.1329745061406782,0.533071197530614,0.1929201872784653,0.1039247643221886,0.3735315963855781,0.1751699848942058,0.5139302367448743,0.136539330504524,0.5764106391527402,0.08247799406498477,0.1812409165533037,0.2733779154957789,0.2900348255918622,0.4075059224966647,0.5631659455547595,0.401721726710311,0.1380087773367781,0.2176855824911088,0.1080725984231316,0.2518530529322767,0.2466667699949092,0.1869398665396525,0.2063139119953359,0.161604576328374,0.1107432360736381,0.2294316191575331,0.2495746651866883,0.1209500793441677,0.3653003096270526,0.198648943488592,0.3720102867239503,0.3858314326897971,0.089570086950716,0.5416339294975506,0.3001766912945559,0.1591235062610954,0.195502598506589,0.6838024634247828,0.1858996293298011,1,0.4292334673818571,0.2414465079624346,0.3621921166114855,0.1134472566947759,0.05130902973588111,0.1575545066414228,0.3657772092075003,0.1338275602652038,0.1858996293298011,0.1332069946861465,0.089570086950716,0.7161791759413701,0.7077726285870301,0.179034659869258,0.2527704885001628,0.1107432360736381,0.1186120791510234,0.3086714650712786,0.162060611552177,0.1591235062610954,0.1794203524049449,0.5198515411606067,0.4600960237305231,0.1182454625985543,0.08215251010132922,0.4059321538811876,0.2123407304432424],"label2":["Aqp5=1-Atp4b=3","Atf3=3-Cbx3=3","Aqp5=2-Dmbt1=3","Atp4b=3-ENSMUSG00000075015=1","Dmbt1=3-ENSMUSG00000075015=2","Atp4a=3-ENSMUSG00000091028=3","Atp4a=3-ENSMUSG00000095186=2","Atp4b=3-ENSMUSG00000095186=2","Dmbt1=3-ENSMUSG00000095186=3","Atp4a=3-ENSMUSG00000095547=2","Atp4a=3-ENSMUSG00000095891=2","Atf3=3-ENSMUSG00000096519=1","Dmbt1=3-ENSMUSG00000096519=2","Atp4b=3-ENSMUSG00000105207=2","Atp4b=3-ENSMUSG00000111824=1","Atp4b=3-ENSMUSG00000113795=2","Dmbt1=3-ENSMUSG00000114367=1","Atf3=3-ENSMUSG00000114367=2","Dusp1=3-ENSMUSG00000118642=2","Atf3=3-Fam120a=3","Atp4b=3-Fam120a=3","Dmbt1=3-Fos=1","Atp4a=3-Fxyd6=2","Atp4b=3-Fxyd6=2","Atp4a=3-Ghrl=2","Cela1=3-Ghrl=2","ENSMUSG00000114367=2-Ghrl=2","Atf3=3-Gkn1=1","Ccn1=3-Gkn1=1","Dusp1=3-Gkn1=1","Atf3=3-Gkn2=1","Atp4b=3-Gkn3=2","Cbx3=1-Gm12918=3","ENSMUSG00000075015=3-Gm12918=3","Fam120a=1-Gm12918=3","Atp4b=3-Gsdma2=3","ENSMUSG00000075014=3-H2ac8=3","ENSMUSG00000075015=3-H2ac8=3","ENSMUSG00000095186=3-H2ac8=3","ENSMUSG00000095891=1-H2ac8=3","Dmbt1=3-Hspa1a=1","H2ac8=2-Hspa1b=1","Atp4b=3-Irs2=2","ENSMUSG00000075014=2-Irs2=3","ENSMUSG00000091028=3-Irs2=3","ENSMUSG00000095186=1-Irs2=3","ENSMUSG00000095547=2-Irs2=3","ENSMUSG00000095891=2-Irs2=3","Gkn1=1-Irs2=3","Hspa1b=2-Irs2=3","Dmbt1=3-Jun=1","H2ac8=2-Jun=1","Dmbt1=3-Krt7=2","Gm12918=3-Lgr4=1","H2ac8=2-Lgr4=3","Atp4b=3-Lypd8l=2","Atp4b=3-Mt2=3","Ccn1=3-Muc5ac=1","Dmbt1=3-Muc5ac=3","Dmbt1=3-Nfkbiz=2","Amer1=3-Nr4a1=3","ENSMUSG00000075015=1-Nr4a1=3","Gkn1=1-Nr4a1=3","Gkn2=1-Nr4a1=3","Mucl3=2-Nr4a1=3","Cela1=3-Nupr1=2","Atf3=3-Pam=3","Irs2=2-Pam=3","Atf3=3-Pcdh1=2","Gsta1=3-Pcdh1=2","Nupr1=2-Pga5=3","Amer1=2-Pla2g1b=1","Pcdh1=2-Pla2g1b=1","Ghrl=2-Pla2g1b=2","Ghrl=3-Pla2g1b=2","Gm12918=3-Plec=3","Atp4b=3-Pnliprp2=1","Atf3=3-Pnliprp2=3","Irs2=3-Pnliprp2=3","H2ac8=3-Ppp2r1b=1","Atf3=3-Ppp2r1b=3","Atp4b=3-Ppp2r1b=3","Dusp1=3-Ppp2r1b=3","Irs2=3-Ppp2r1b=3","Dmbt1=3-Rpl10=2","Irs2=3-Rpl10=2","Fam120a=1-Rpl10=3","Hspa1a=2-Rpl10=3","Muc5ac=3-Rpl10=3","Gm12918=3-Slc39a1=1","Atp4a=3-Spp1=2","Atp4b=3-Spp1=2","Rpl10=3-Spp1=2","Gsdma2=3-Sprr1a=2","Mt1=1-Sprr1a=2","Lgr4=1-Sprr1a=3","Ppp2r1b=3-Sprr1a=3","Sprr1a=2-Sprr2a3=1","Atp4b=3-Sptssb=3","Rpl10=3-Sptssb=3","Atf3=3-Tff1=1","Irs2=3-Tff1=1","Irs2=2-Tff1=2","Nupr1=2-Tff1=2","H2ac8=3-Tff1=3","Dmbt1=2-Tff2=3","Gm12918=2-Tff2=3","Pcdh1=2-Tff2=3","Atp4a=3-Tmed6=2","Ghrl=3-Tmed6=2","Sprr1a=2-Tmed6=3","Atp4b=3-Try4=2","Ghrl=2-Try4=2","Ghrl=3-Try4=2","Atf3=3-Try4=3","Dmbt1=3-Zc3h4=3"],"color":["#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#dbcb33","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#d86431","#c2c2c2","#c2c2c2","#ea1d1d","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#dbcb33","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#dbcb33","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#dbcb33","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#dbcb33","#c2c2c2","#ea1d1d","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#d86431","#d86431","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2"],"width":[1.604170963730594,3.538833336711372,1.338275602652038,1.338275602652038,2.683364908059723,1.107432360736381,1.035742431305597,2.925421251360654,0.6067056850006735,0,1.39249908494893,5.809280704285301,1.107432360736381,1.379086284248841,1.404040054795762,2.307073255352304,2.07136563771608,3.657772092075003,1.679497252462292,2.908324401401608,1.869398665396525,2.810852088402875,1.831842823436276,1.441762811609166,2.023347811209763,0.4076179938980696,1.39249908494893,8.139280906967624,2.733779154957789,3.753152008164522,9.930503808639275,2.460372625487182,4.238635781060172,3.294469991690025,3.755298056276535,1.37190298431835,2.703782171347636,1.337524485812834,2.975126110132805,1.332183210511821,3.169397115472888,3.125838300043755,0.6878441873690762,1.34214445049842,1.680868338756079,3.858314326897971,3.086732534447052,5.525787748688229,3.785044667606954,1.329745061406782,5.330711975306141,1.929201872784653,1.039247643221886,3.735315963855781,1.751699848942058,5.139302367448742,1.36539330504524,5.764106391527402,0.8247799406498477,1.812409165533037,2.733779154957789,2.900348255918622,4.075059224966648,5.631659455547595,4.01721726710311,1.380087773367781,2.176855824911088,1.080725984231316,2.518530529322767,2.466667699949092,1.869398665396525,2.063139119953359,1.61604576328374,1.107432360736381,2.294316191575331,2.495746651866883,1.209500793441677,3.653003096270526,1.98648943488592,3.720102867239503,3.858314326897971,0.89570086950716,5.416339294975506,3.001766912945559,1.591235062610954,1.95502598506589,6.838024634247828,1.858996293298012,10,4.292334673818571,2.414465079624346,3.621921166114855,1.134472566947759,0.5130902973588111,1.575545066414228,3.657772092075003,1.338275602652038,1.858996293298012,1.332069946861465,0.89570086950716,7.161791759413702,7.0777262858703,1.79034659869258,2.527704885001628,1.107432360736381,1.186120791510234,3.086714650712787,1.62060611552177,1.591235062610954,1.794203524049449,5.198515411606067,4.600960237305231,1.182454625985543,0.8215251010132922,4.059321538811877,2.123407304432424],"title":["From:  <b>Aqp5=1<\/b><br/>To: <b>Atp4b=3<\/b><br/>Connection: <b>9.36<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Cbx3=3<\/b><br/>Connection: <b>12.6<\/b>","From:  <b>Aqp5=2<\/b><br/>To: <b>Dmbt1=3<\/b><br/>Connection: <b>8.91<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000075015=1<\/b><br/>Connection: <b>8.91<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>ENSMUSG00000075015=2<\/b><br/>Connection: <b>11.17<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>ENSMUSG00000091028=3<\/b><br/>Connection: <b>8.52<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>ENSMUSG00000095186=2<\/b><br/>Connection: <b>8.4<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000095186=2<\/b><br/>Connection: <b>11.57<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>ENSMUSG00000095186=3<\/b><br/>Connection: <b>7.68<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>ENSMUSG00000095547=2<\/b><br/>Connection: <b>6.66<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>ENSMUSG00000095891=2<\/b><br/>Connection: <b>9<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>ENSMUSG00000096519=1<\/b><br/>Connection: <b>16.41<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>ENSMUSG00000096519=2<\/b><br/>Connection: <b>8.52<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000105207=2<\/b><br/>Connection: <b>8.98<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000111824=1<\/b><br/>Connection: <b>9.02<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000113795=2<\/b><br/>Connection: <b>10.53<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>ENSMUSG00000114367=1<\/b><br/>Connection: <b>10.14<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>ENSMUSG00000114367=2<\/b><br/>Connection: <b>12.8<\/b>","From:  <b>Dusp1=3<\/b><br/>To: <b>ENSMUSG00000118642=2<\/b><br/>Connection: <b>9.48<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Fam120a=3<\/b><br/>Connection: <b>11.54<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Fam120a=3<\/b><br/>Connection: <b>9.8<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>Fos=1<\/b><br/>Connection: <b>11.38<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>Fxyd6=2<\/b><br/>Connection: <b>9.74<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Fxyd6=2<\/b><br/>Connection: <b>9.08<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>Ghrl=2<\/b><br/>Connection: <b>10.06<\/b>","From:  <b>Cela1=3<\/b><br/>To: <b>Ghrl=2<\/b><br/>Connection: <b>7.35<\/b>","From:  <b>ENSMUSG00000114367=2<\/b><br/>To: <b>Ghrl=2<\/b><br/>Connection: <b>9<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Gkn1=1<\/b><br/>Connection: <b>20.32<\/b>","From:  <b>Ccn1=3<\/b><br/>To: <b>Gkn1=1<\/b><br/>Connection: <b>11.25<\/b>","From:  <b>Dusp1=3<\/b><br/>To: <b>Gkn1=1<\/b><br/>Connection: <b>12.96<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Gkn2=1<\/b><br/>Connection: <b>23.32<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Gkn3=2<\/b><br/>Connection: <b>10.79<\/b>","From:  <b>Cbx3=1<\/b><br/>To: <b>Gm12918=3<\/b><br/>Connection: <b>13.77<\/b>","From:  <b>ENSMUSG00000075015=3<\/b><br/>To: <b>Gm12918=3<\/b><br/>Connection: <b>12.19<\/b>","From:  <b>Fam120a=1<\/b><br/>To: <b>Gm12918=3<\/b><br/>Connection: <b>12.96<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Gsdma2=3<\/b><br/>Connection: <b>8.97<\/b>","From:  <b>ENSMUSG00000075014=3<\/b><br/>To: <b>H2ac8=3<\/b><br/>Connection: <b>11.2<\/b>","From:  <b>ENSMUSG00000075015=3<\/b><br/>To: <b>H2ac8=3<\/b><br/>Connection: <b>8.91<\/b>","From:  <b>ENSMUSG00000095186=3<\/b><br/>To: <b>H2ac8=3<\/b><br/>Connection: <b>11.65<\/b>","From:  <b>ENSMUSG00000095891=1<\/b><br/>To: <b>H2ac8=3<\/b><br/>Connection: <b>8.9<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>Hspa1a=1<\/b><br/>Connection: <b>11.98<\/b>","From:  <b>H2ac8=2<\/b><br/>To: <b>Hspa1b=1<\/b><br/>Connection: <b>11.91<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Irs2=2<\/b><br/>Connection: <b>7.82<\/b>","From:  <b>ENSMUSG00000075014=2<\/b><br/>To: <b>Irs2=3<\/b><br/>Connection: <b>8.92<\/b>","From:  <b>ENSMUSG00000091028=3<\/b><br/>To: <b>Irs2=3<\/b><br/>Connection: <b>9.48<\/b>","From:  <b>ENSMUSG00000095186=1<\/b><br/>To: <b>Irs2=3<\/b><br/>Connection: <b>13.14<\/b>","From:  <b>ENSMUSG00000095547=2<\/b><br/>To: <b>Irs2=3<\/b><br/>Connection: <b>11.84<\/b>","From:  <b>ENSMUSG00000095891=2<\/b><br/>To: <b>Irs2=3<\/b><br/>Connection: <b>15.93<\/b>","From:  <b>Gkn1=1<\/b><br/>To: <b>Irs2=3<\/b><br/>Connection: <b>13.01<\/b>","From:  <b>Hspa1b=2<\/b><br/>To: <b>Irs2=3<\/b><br/>Connection: <b>8.89<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>Jun=1<\/b><br/>Connection: <b>15.61<\/b>","From:  <b>H2ac8=2<\/b><br/>To: <b>Jun=1<\/b><br/>Connection: <b>9.9<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>Krt7=2<\/b><br/>Connection: <b>8.41<\/b>","From:  <b>Gm12918=3<\/b><br/>To: <b>Lgr4=1<\/b><br/>Connection: <b>12.93<\/b>","From:  <b>H2ac8=2<\/b><br/>To: <b>Lgr4=3<\/b><br/>Connection: <b>9.6<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Lypd8l=2<\/b><br/>Connection: <b>15.29<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Mt2=3<\/b><br/>Connection: <b>8.95<\/b>","From:  <b>Ccn1=3<\/b><br/>To: <b>Muc5ac=1<\/b><br/>Connection: <b>16.33<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>Muc5ac=3<\/b><br/>Connection: <b>8.05<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>Nfkbiz=2<\/b><br/>Connection: <b>9.7<\/b>","From:  <b>Amer1=3<\/b><br/>To: <b>Nr4a1=3<\/b><br/>Connection: <b>11.25<\/b>","From:  <b>ENSMUSG00000075015=1<\/b><br/>To: <b>Nr4a1=3<\/b><br/>Connection: <b>11.53<\/b>","From:  <b>Gkn1=1<\/b><br/>To: <b>Nr4a1=3<\/b><br/>Connection: <b>13.5<\/b>","From:  <b>Gkn2=1<\/b><br/>To: <b>Nr4a1=3<\/b><br/>Connection: <b>16.11<\/b>","From:  <b>Mucl3=2<\/b><br/>To: <b>Nr4a1=3<\/b><br/>Connection: <b>13.4<\/b>","From:  <b>Cela1=3<\/b><br/>To: <b>Nupr1=2<\/b><br/>Connection: <b>8.98<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Pam=3<\/b><br/>Connection: <b>10.32<\/b>","From:  <b>Irs2=2<\/b><br/>To: <b>Pam=3<\/b><br/>Connection: <b>8.48<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Pcdh1=2<\/b><br/>Connection: <b>10.89<\/b>","From:  <b>Gsta1=3<\/b><br/>To: <b>Pcdh1=2<\/b><br/>Connection: <b>10.8<\/b>","From:  <b>Nupr1=2<\/b><br/>To: <b>Pga5=3<\/b><br/>Connection: <b>9.8<\/b>","From:  <b>Amer1=2<\/b><br/>To: <b>Pla2g1b=1<\/b><br/>Connection: <b>10.12<\/b>","From:  <b>Pcdh1=2<\/b><br/>To: <b>Pla2g1b=1<\/b><br/>Connection: <b>9.38<\/b>","From:  <b>Ghrl=2<\/b><br/>To: <b>Pla2g1b=2<\/b><br/>Connection: <b>8.52<\/b>","From:  <b>Ghrl=3<\/b><br/>To: <b>Pla2g1b=2<\/b><br/>Connection: <b>10.51<\/b>","From:  <b>Gm12918=3<\/b><br/>To: <b>Plec=3<\/b><br/>Connection: <b>10.85<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Pnliprp2=1<\/b><br/>Connection: <b>8.69<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Pnliprp2=3<\/b><br/>Connection: <b>12.79<\/b>","From:  <b>Irs2=3<\/b><br/>To: <b>Pnliprp2=3<\/b><br/>Connection: <b>10<\/b>","From:  <b>H2ac8=3<\/b><br/>To: <b>Ppp2r1b=1<\/b><br/>Connection: <b>12.9<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Ppp2r1b=3<\/b><br/>Connection: <b>13.14<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Ppp2r1b=3<\/b><br/>Connection: <b>8.17<\/b>","From:  <b>Dusp1=3<\/b><br/>To: <b>Ppp2r1b=3<\/b><br/>Connection: <b>15.75<\/b>","From:  <b>Irs2=3<\/b><br/>To: <b>Ppp2r1b=3<\/b><br/>Connection: <b>11.7<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>Rpl10=2<\/b><br/>Connection: <b>9.33<\/b>","From:  <b>Irs2=3<\/b><br/>To: <b>Rpl10=2<\/b><br/>Connection: <b>9.94<\/b>","From:  <b>Fam120a=1<\/b><br/>To: <b>Rpl10=3<\/b><br/>Connection: <b>18.13<\/b>","From:  <b>Hspa1a=2<\/b><br/>To: <b>Rpl10=3<\/b><br/>Connection: <b>9.78<\/b>","From:  <b>Muc5ac=3<\/b><br/>To: <b>Rpl10=3<\/b><br/>Connection: <b>23.44<\/b>","From:  <b>Gm12918=3<\/b><br/>To: <b>Slc39a1=1<\/b><br/>Connection: <b>13.86<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>Spp1=2<\/b><br/>Connection: <b>10.71<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Spp1=2<\/b><br/>Connection: <b>12.74<\/b>","From:  <b>Rpl10=3<\/b><br/>To: <b>Spp1=2<\/b><br/>Connection: <b>8.57<\/b>","From:  <b>Gsdma2=3<\/b><br/>To: <b>Sprr1a=2<\/b><br/>Connection: <b>7.52<\/b>","From:  <b>Mt1=1<\/b><br/>To: <b>Sprr1a=2<\/b><br/>Connection: <b>9.31<\/b>","From:  <b>Lgr4=1<\/b><br/>To: <b>Sprr1a=3<\/b><br/>Connection: <b>12.8<\/b>","From:  <b>Ppp2r1b=3<\/b><br/>To: <b>Sprr1a=3<\/b><br/>Connection: <b>8.91<\/b>","From:  <b>Sprr1a=2<\/b><br/>To: <b>Sprr2a3=1<\/b><br/>Connection: <b>9.78<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Sptssb=3<\/b><br/>Connection: <b>8.9<\/b>","From:  <b>Rpl10=3<\/b><br/>To: <b>Sptssb=3<\/b><br/>Connection: <b>8.17<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Tff1=1<\/b><br/>Connection: <b>18.68<\/b>","From:  <b>Irs2=3<\/b><br/>To: <b>Tff1=1<\/b><br/>Connection: <b>18.54<\/b>","From:  <b>Irs2=2<\/b><br/>To: <b>Tff1=2<\/b><br/>Connection: <b>9.67<\/b>","From:  <b>Nupr1=2<\/b><br/>To: <b>Tff1=2<\/b><br/>Connection: <b>10.9<\/b>","From:  <b>H2ac8=3<\/b><br/>To: <b>Tff1=3<\/b><br/>Connection: <b>8.52<\/b>","From:  <b>Dmbt1=2<\/b><br/>To: <b>Tff2=3<\/b><br/>Connection: <b>8.65<\/b>","From:  <b>Gm12918=2<\/b><br/>To: <b>Tff2=3<\/b><br/>Connection: <b>11.84<\/b>","From:  <b>Pcdh1=2<\/b><br/>To: <b>Tff2=3<\/b><br/>Connection: <b>9.38<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>Tmed6=2<\/b><br/>Connection: <b>9.33<\/b>","From:  <b>Ghrl=3<\/b><br/>To: <b>Tmed6=2<\/b><br/>Connection: <b>9.67<\/b>","From:  <b>Sprr1a=2<\/b><br/>To: <b>Tmed6=3<\/b><br/>Connection: <b>15.38<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Try4=2<\/b><br/>Connection: <b>14.38<\/b>","From:  <b>Ghrl=2<\/b><br/>To: <b>Try4=2<\/b><br/>Connection: <b>8.65<\/b>","From:  <b>Ghrl=3<\/b><br/>To: <b>Try4=2<\/b><br/>Connection: <b>8.04<\/b>","From:  <b>Atf3=3<\/b><br/>To: <b>Try4=3<\/b><br/>Connection: <b>13.47<\/b>","From:  <b>Dmbt1=3<\/b><br/>To: <b>Zc3h4=3<\/b><br/>Connection: <b>10.23<\/b>"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","font":{"size":"1500px"}},"manipulation":{"enabled":false},"layout":{"randomSeed":123},"physics":{"enabled":true},"interaction":{"hover":true,"navigationButtons":true,"zoomSpeed":1},"edges":{"smooth":true}},"groups":["cluster_2","cluster_4","cluster_1","cluster_5","cluster_3","cluster_1,cluster_5","cluster_2,cluster_4","cluster_1,cluster_4","cluster_2,cluster_5","cluster_1,cluster_2","cluster_0"],"width":"100%","height":"800px","idselection":{"enabled":false,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":true,"style":"width: 200px; height: 30px;\n                                                                padding-left: 80px;\n                                                              font-size: 15px;\n                                                                color: black;\n                                                                border:none;\n                                                                outline:none;","multiple":true,"hideColor":"rgba(200,200,200,0.5)","highlight":false,"variable":"group","main":"Select by decision","values":["cluster_0","cluster_1","cluster_2","cluster_3","cluster_4","cluster_5"]},"main":{"text":"Decision:  all","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);","events":{"select":"function(nodes) {\n                  Shiny.onInputChange('current_node_id', nodes.nodes);\n                  ;}"},"highlight":{"enabled":false,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":["events.select"],"jsHooks":[]}</script>
-<script type="application/htmlwidget-sizing" data-for="htmlwidget-25a27e0328daab6dd7ac">{"viewer":{"width":"100%","height":"800px","padding":15,"fill":false},"browser":{"width":"100%","height":"800px","padding":40,"fill":false}}</script>
-</body>
-</html>
-</div>
-<div id="the-distribution-of-nodes-connections-cullen-and-frey-graph"
-class="section level2">
-<h2>The distribution of nodes connections, Cullen and Frey graph</h2>
-<pre class="r"><code>rls = out_jon_sc$main[which(out_jon_sc$main$pValue&lt;0.05),]
-rls = rls[which(rls$accuracyRHS&gt;0.55),]
-rls = rls$features[which(rls$coverageRHS&gt;0.2)]
-
-
-vals &lt;- unname(table(unlist(strsplit(rls[grep(&quot;,&quot;,rls)], &quot;,&quot;))))
-freqs &lt;- table(vals)
-
-descdist(vals %&gt;% as.numeric, discrete = FALSE,obs.col = &quot;#FF5D1B&quot;)</code></pre>
-<p><img src="scdata_files/figure-html/block9-1.png" width="672" /></p>
-</div>
-<div id="the-degree-distribution-of-network" class="section level2">
-<h2>The degree distribution of network</h2>
-<pre class="r"><code>df1 &lt;- data.frame(degrees = as.numeric(freqs %&gt;% names), freqs = as.numeric(freqs %&gt;% unname))
-
-  ggplot(df1, aes(x = degrees, y = freqs)) +
-  geom_point(colour = &quot;black&quot;, size = 5,alpha = 7/10) +
-  scale_x_continuous(&quot;Degree&quot;,
-                     trans = &quot;log10&quot;) +
-  scale_y_continuous(&quot;Frequency&quot;,
-                     trans = &quot;log10&quot;) +
-  ggtitle(&quot;&quot;) +
-  theme_bw()+
-  theme(text = element_text(size=18))</code></pre>
-<p><img src="scdata_files/figure-html/block99-1.png" width="672" /></p>
-</div>
-
-
-
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open');
-  });
-});
-</script>
-
-<!-- code folding -->
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-
+<script type="application/json" data-for="htmlwidget-14962b813dc0ba32dd9b">{"x":{"nodes":{"id":["Atp4b=3","Atp4a=3","Ghrl=2","Try4=2","Nupr1=2","Ghrl=3","Irs2=2","Spp1=2","Tff1=2","ENSMUSG00000095186=2","Pla2g1b=2","Tmed6=2","Fxyd6=2","Cela1=3","Lypd8l=2","Gkn3=2","ENSMUSG00000113795=2","Pga5=3","Fam120a=3","Aqp5=1","ENSMUSG00000111824=1","ENSMUSG00000114367=2","ENSMUSG00000095891=2","ENSMUSG00000105207=2","Gsdma2=3","Mt2=3","ENSMUSG00000075015=1","Sptssb=3","Pnliprp2=1","ENSMUSG00000091028=3","Pam=3","Ppp2r1b=3","ENSMUSG00000095547=2"],"label":["Atp4b","Atp4a","Ghrl","Try4","Nupr1","Ghrl","Irs2","Spp1","Tff1","ENSMUSG00000095186","Pla2g1b","Tmed6","Fxyd6","Cela1","Lypd8l","Gkn3","ENSMUSG00000113795","Pga5","Fam120a","Aqp5","ENSMUSG00000111824","ENSMUSG00000114367","ENSMUSG00000095891","ENSMUSG00000105207","Gsdma2","Mt2","ENSMUSG00000075015","Sptssb","Pnliprp2","ENSMUSG00000091028","Pam","Ppp2r1b","ENSMUSG00000095547"],"DiscState":["3","3","2","2","2","3","2","2","2","2","2","2","2","3","2","2","2","3","3","1","1","2","2","2","3","3","1","3","1","3","3","3","2"],"color.background":["#E69F00","#E69F00","#999999","#999999","#999999","#E69F00","#999999","#999999","#999999","#999999","#999999","#999999","#999999","#E69F00","#999999","#999999","#999999","#E69F00","#E69F00","#56B4E9","#56B4E9","#999999","#999999","#999999","#E69F00","#E69F00","#56B4E9","#E69F00","#56B4E9","#E69F00","#E69F00","#E69F00","#999999"],"value":[0.2328811111111111,0.21510375,0.220536,0.24772,0.2257566666666667,0.2271466666666667,0.2282366666666667,0.248805,0.257385,0.244425,0.2363,0.216895,0.20354,0.20557,0.316,0.24327,0.22844,0.21212,0.20588,0.21475,0.21633,0.22388,0.23077,0.21261,0.20346,0.2119,0.22581,0.20361,0.22161,0.20588,0.21898,0.21875,0.2],"borderWidth":[9.473684210526315,4.210526315789473,2.631578947368421,1.578947368421053,1.578947368421053,1.578947368421053,1.578947368421053,1.052631578947368,1.052631578947368,1.052631578947368,1.052631578947368,1.052631578947368,1.052631578947368,1.052631578947368,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842,0.5263157894736842],"color.border":["#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2","#0072B2"],"meanAcc":[0.665655,0.6455824999999999,0.604196,0.6380833333333333,0.6609333333333333,0.6555566666666667,0.59185,0.7110300000000001,0.60505,0.6214850000000001,0.6328750000000001,0.67883,0.6988799999999999,0.6032949999999999,0.72787,0.6744599999999999,0.70228,0.7,0.7,0.66822,0.64424,0.6,0.6,0.64125,0.68965,0.68881,0.63636,0.68451,0.62093,0.6087,0.6055,0.58333,0.5553399999999999],"meanSupp":[15.11111111111111,14,14.4,16,15,14.33333333333333,14.66666666666667,16.5,17,16,15,14,13.5,13.5,21,16,15,14,14,14,14,15,15,14,13,13,14,13,14,14,14,14,12],"meanDecisionCoverage":[0.2328811111111111,0.21510375,0.220536,0.24772,0.2257566666666667,0.2271466666666667,0.2282366666666667,0.248805,0.257385,0.244425,0.2363,0.216895,0.20354,0.20557,0.316,0.24327,0.22844,0.21212,0.20588,0.21475,0.21633,0.22388,0.23077,0.21261,0.20346,0.2119,0.22581,0.20361,0.22161,0.20588,0.21898,0.21875,0.2],"NRules":[18,8,5,3,3,3,3,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"PrecRules":[0.4736842105263158,0.2105263157894737,0.131578947368421,0.07894736842105263,0.07894736842105263,0.07894736842105263,0.07894736842105263,0.05263157894736842,0.05263157894736842,0.05263157894736842,0.05263157894736842,0.05263157894736842,0.05263157894736842,0.05263157894736842,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421,0.02631578947368421],"NodeConnection":[181.94418,72.43039999999999,43.57556,31.07204,29.68349,28.22885,25.96233,23.45421,20.5717,19.97302,19.0346,19.00724,18.81964,16.32704,15.28527,10.79136,10.5342,9.799999999999999,9.799999999999999,9.355080000000001,9.019360000000001,9,9,8.977499999999999,8.965450000000001,8.95453,8.909040000000001,8.898629999999999,8.693020000000001,8.521800000000001,8.477,8.16662,6.664079999999999],"title":["Name: <b>Atp4b=3<\/b><br/>Edges: <b>18<\/b><br/>Connection: <b>181.94<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>15.11<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Atp4a=3<\/b><br/>Edges: <b>8<\/b><br/>Connection: <b>72.43<\/b><br/>Mean accuracy: <b>0.65<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Ghrl=2<\/b><br/>Edges: <b>5<\/b><br/>Connection: <b>43.58<\/b><br/>Mean accuracy: <b>0.6<\/b><br/>Mean support: <b>14.4<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Try4=2<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>31.07<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>Nupr1=2<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>29.68<\/b><br/>Mean accuracy: <b>0.66<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Ghrl=3<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>28.23<\/b><br/>Mean accuracy: <b>0.66<\/b><br/>Mean support: <b>14.33<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Irs2=2<\/b><br/>Edges: <b>3<\/b><br/>Connection: <b>25.96<\/b><br/>Mean accuracy: <b>0.59<\/b><br/>Mean support: <b>14.67<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Spp1=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>23.45<\/b><br/>Mean accuracy: <b>0.71<\/b><br/>Mean support: <b>16.5<\/b><br/>Mean decision coverage: <b>0.25","Name: <b>Tff1=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>20.57<\/b><br/>Mean accuracy: <b>0.61<\/b><br/>Mean support: <b>17<\/b><br/>Mean decision coverage: <b>0.26","Name: <b>ENSMUSG00000095186=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>19.97<\/b><br/>Mean accuracy: <b>0.62<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Pla2g1b=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>19.03<\/b><br/>Mean accuracy: <b>0.63<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>Tmed6=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>19.01<\/b><br/>Mean accuracy: <b>0.68<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Fxyd6=2<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>18.82<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>13.5<\/b><br/>Mean decision coverage: <b>0.2","Name: <b>Cela1=3<\/b><br/>Edges: <b>2<\/b><br/>Connection: <b>16.33<\/b><br/>Mean accuracy: <b>0.6<\/b><br/>Mean support: <b>13.5<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Lypd8l=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>15.29<\/b><br/>Mean accuracy: <b>0.73<\/b><br/>Mean support: <b>21<\/b><br/>Mean decision coverage: <b>0.32","Name: <b>Gkn3=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>10.79<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>16<\/b><br/>Mean decision coverage: <b>0.24","Name: <b>ENSMUSG00000113795=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>10.53<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Pga5=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.8<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Fam120a=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.8<\/b><br/>Mean accuracy: <b>0.7<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Aqp5=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.36<\/b><br/>Mean accuracy: <b>0.67<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>ENSMUSG00000111824=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9.02<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000114367=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9<\/b><br/>Mean accuracy: <b>0.6<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000095891=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>9<\/b><br/>Mean accuracy: <b>0.6<\/b><br/>Mean support: <b>15<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>ENSMUSG00000105207=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.98<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Gsdma2=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.97<\/b><br/>Mean accuracy: <b>0.69<\/b><br/>Mean support: <b>13<\/b><br/>Mean decision coverage: <b>0.2","Name: <b>Mt2=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.95<\/b><br/>Mean accuracy: <b>0.69<\/b><br/>Mean support: <b>13<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>ENSMUSG00000075015=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.91<\/b><br/>Mean accuracy: <b>0.64<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.23","Name: <b>Sptssb=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.9<\/b><br/>Mean accuracy: <b>0.68<\/b><br/>Mean support: <b>13<\/b><br/>Mean decision coverage: <b>0.2","Name: <b>Pnliprp2=1<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.69<\/b><br/>Mean accuracy: <b>0.62<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000091028=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.52<\/b><br/>Mean accuracy: <b>0.61<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.21","Name: <b>Pam=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.48<\/b><br/>Mean accuracy: <b>0.61<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>Ppp2r1b=3<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>8.17<\/b><br/>Mean accuracy: <b>0.58<\/b><br/>Mean support: <b>14<\/b><br/>Mean decision coverage: <b>0.22","Name: <b>ENSMUSG00000095547=2<\/b><br/>Edges: <b>1<\/b><br/>Connection: <b>6.66<\/b><br/>Mean accuracy: <b>0.56<\/b><br/>Mean support: <b>12<\/b><br/>Mean decision coverage: <b>0.2"],"font.size":[20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20]},"edges":{"from":["Aqp5=1","Atp4b=3","Atp4a=3","Atp4a=3","Atp4b=3","Atp4a=3","Atp4a=3","Atp4b=3","Atp4b=3","Atp4b=3","Atp4b=3","Atp4a=3","Atp4b=3","Atp4a=3","Cela1=3","ENSMUSG00000114367=2","Atp4b=3","Atp4b=3","Atp4b=3","Atp4b=3","Atp4b=3","Cela1=3","Irs2=2","Nupr1=2","Ghrl=2","Ghrl=3","Atp4b=3","Atp4b=3","Atp4a=3","Atp4b=3","Atp4b=3","Irs2=2","Nupr1=2","Atp4a=3","Ghrl=3","Atp4b=3","Ghrl=2","Ghrl=3"],"to":["Atp4b=3","ENSMUSG00000075015=1","ENSMUSG00000091028=3","ENSMUSG00000095186=2","ENSMUSG00000095186=2","ENSMUSG00000095547=2","ENSMUSG00000095891=2","ENSMUSG00000105207=2","ENSMUSG00000111824=1","ENSMUSG00000113795=2","Fam120a=3","Fxyd6=2","Fxyd6=2","Ghrl=2","Ghrl=2","Ghrl=2","Gkn3=2","Gsdma2=3","Irs2=2","Lypd8l=2","Mt2=3","Nupr1=2","Pam=3","Pga5=3","Pla2g1b=2","Pla2g1b=2","Pnliprp2=1","Ppp2r1b=3","Spp1=2","Spp1=2","Sptssb=3","Tff1=2","Tff1=2","Tmed6=2","Tmed6=2","Try4=2","Try4=2","Try4=2"],"conn":[9.355079999999999,8.909039999999999,8.521800000000001,8.401540000000001,11.57148,6.66408,9,8.977499999999999,9.019360000000001,10.5342,9.800000000000001,9.737,9.08264,10.05825,7.34786,9,10.79136,8.965450000000001,7.81794,15.28527,8.95453,8.979179999999999,8.477,9.800000000000001,8.521800000000001,10.5128,8.693020000000001,8.16662,10.71435,12.73986,8.898630000000001,9.667389999999999,10.90431,9.33338,9.673859999999999,14.3822,8.647650000000001,8.04219],"connNorm":[0.3121378835172405,0.2604002463697005,0.2154830133659043,0.2015336629862003,0.5692253621599801,0,0.2709509940043079,0.2683411454799162,0.2731966236679624,0.4489078653874929,0.3637456082048998,0.3564380323366031,0.280536677651229,0.3937008696015282,0.07931387662260078,0.2709509940043079,0.478736694122273,0.2669434266035199,0.1338399919268685,1,0.2656767801196818,0.2685360141697375,0.2102865149706711,0.3637456082048998,0.2154830133659043,0.4464256094576271,0.235343380670186,0.1742845245261965,0.4698040525727886,0.7047495763345895,0.2591927564524156,0.3483637409684741,0.4918381337147192,0.3096208296070496,0.3491142174108214,0.8952499596923393,0.2300807661123349,0.1598514822199719],"label2":["Aqp5=1-Atp4b=3","Atp4b=3-ENSMUSG00000075015=1","Atp4a=3-ENSMUSG00000091028=3","Atp4a=3-ENSMUSG00000095186=2","Atp4b=3-ENSMUSG00000095186=2","Atp4a=3-ENSMUSG00000095547=2","Atp4a=3-ENSMUSG00000095891=2","Atp4b=3-ENSMUSG00000105207=2","Atp4b=3-ENSMUSG00000111824=1","Atp4b=3-ENSMUSG00000113795=2","Atp4b=3-Fam120a=3","Atp4a=3-Fxyd6=2","Atp4b=3-Fxyd6=2","Atp4a=3-Ghrl=2","Cela1=3-Ghrl=2","ENSMUSG00000114367=2-Ghrl=2","Atp4b=3-Gkn3=2","Atp4b=3-Gsdma2=3","Atp4b=3-Irs2=2","Atp4b=3-Lypd8l=2","Atp4b=3-Mt2=3","Cela1=3-Nupr1=2","Irs2=2-Pam=3","Nupr1=2-Pga5=3","Ghrl=2-Pla2g1b=2","Ghrl=3-Pla2g1b=2","Atp4b=3-Pnliprp2=1","Atp4b=3-Ppp2r1b=3","Atp4a=3-Spp1=2","Atp4b=3-Spp1=2","Atp4b=3-Sptssb=3","Irs2=2-Tff1=2","Nupr1=2-Tff1=2","Atp4a=3-Tmed6=2","Ghrl=3-Tmed6=2","Atp4b=3-Try4=2","Ghrl=2-Try4=2","Ghrl=3-Try4=2"],"color":["#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#dbcb33","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#ea1d1d","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#d86431","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#c2c2c2","#ea1d1d","#c2c2c2","#c2c2c2"],"width":[3.121378835172405,2.604002463697006,2.154830133659043,2.015336629862003,5.692253621599801,0,2.70950994004308,2.683411454799162,2.731966236679624,4.489078653874929,3.637456082048998,3.564380323366032,2.80536677651229,3.937008696015282,0.7931387662260079,2.70950994004308,4.78736694122273,2.6694342660352,1.338399919268686,10,2.656767801196818,2.685360141697375,2.102865149706711,3.637456082048998,2.154830133659043,4.464256094576271,2.353433806701859,1.742845245261965,4.698040525727886,7.047495763345895,2.591927564524156,3.483637409684741,4.918381337147192,3.096208296070496,3.491142174108214,8.952499596923394,2.300807661123349,1.598514822199719],"title":["From:  <b>Aqp5=1<\/b><br/>To: <b>Atp4b=3<\/b><br/>Connection: <b>9.36<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000075015=1<\/b><br/>Connection: <b>8.91<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>ENSMUSG00000091028=3<\/b><br/>Connection: <b>8.52<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>ENSMUSG00000095186=2<\/b><br/>Connection: <b>8.4<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000095186=2<\/b><br/>Connection: <b>11.57<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>ENSMUSG00000095547=2<\/b><br/>Connection: <b>6.66<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>ENSMUSG00000095891=2<\/b><br/>Connection: <b>9<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000105207=2<\/b><br/>Connection: <b>8.98<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000111824=1<\/b><br/>Connection: <b>9.02<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>ENSMUSG00000113795=2<\/b><br/>Connection: <b>10.53<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Fam120a=3<\/b><br/>Connection: <b>9.8<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>Fxyd6=2<\/b><br/>Connection: <b>9.74<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Fxyd6=2<\/b><br/>Connection: <b>9.08<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>Ghrl=2<\/b><br/>Connection: <b>10.06<\/b>","From:  <b>Cela1=3<\/b><br/>To: <b>Ghrl=2<\/b><br/>Connection: <b>7.35<\/b>","From:  <b>ENSMUSG00000114367=2<\/b><br/>To: <b>Ghrl=2<\/b><br/>Connection: <b>9<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Gkn3=2<\/b><br/>Connection: <b>10.79<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Gsdma2=3<\/b><br/>Connection: <b>8.97<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Irs2=2<\/b><br/>Connection: <b>7.82<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Lypd8l=2<\/b><br/>Connection: <b>15.29<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Mt2=3<\/b><br/>Connection: <b>8.95<\/b>","From:  <b>Cela1=3<\/b><br/>To: <b>Nupr1=2<\/b><br/>Connection: <b>8.98<\/b>","From:  <b>Irs2=2<\/b><br/>To: <b>Pam=3<\/b><br/>Connection: <b>8.48<\/b>","From:  <b>Nupr1=2<\/b><br/>To: <b>Pga5=3<\/b><br/>Connection: <b>9.8<\/b>","From:  <b>Ghrl=2<\/b><br/>To: <b>Pla2g1b=2<\/b><br/>Connection: <b>8.52<\/b>","From:  <b>Ghrl=3<\/b><br/>To: <b>Pla2g1b=2<\/b><br/>Connection: <b>10.51<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Pnliprp2=1<\/b><br/>Connection: <b>8.69<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Ppp2r1b=3<\/b><br/>Connection: <b>8.17<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>Spp1=2<\/b><br/>Connection: <b>10.71<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Spp1=2<\/b><br/>Connection: <b>12.74<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Sptssb=3<\/b><br/>Connection: <b>8.9<\/b>","From:  <b>Irs2=2<\/b><br/>To: <b>Tff1=2<\/b><br/>Connection: <b>9.67<\/b>","From:  <b>Nupr1=2<\/b><br/>To: <b>Tff1=2<\/b><br/>Connection: <b>10.9<\/b>","From:  <b>Atp4a=3<\/b><br/>To: <b>Tmed6=2<\/b><br/>Connection: <b>9.33<\/b>","From:  <b>Ghrl=3<\/b><br/>To: <b>Tmed6=2<\/b><br/>Connection: <b>9.67<\/b>","From:  <b>Atp4b=3<\/b><br/>To: <b>Try4=2<\/b><br/>Connection: <b>14.38<\/b>","From:  <b>Ghrl=2<\/b><br/>To: <b>Try4=2<\/b><br/>Connection: <b>8.65<\/b>","From:  <b>Ghrl=3<\/b><br/>To: <b>Try4=2<\/b><br/>Connection: <b>8.04<\/b>"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","font":{"size":"1500px"}},"manipulation":{"enabled":false},"layout":{"randomSeed":123},"physics":{"enabled":true},"interaction":{"hover":true,"navigationButtons":true,"zoomSpeed":1},"edges":{"smooth":true}},"groups":null,"width":"100%","height":"800px","idselection":{"enabled":false},"byselection":{"enabled":false},"main":{"text":"Decision:  cluster_2","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);","events":{"select":"function(nodes) {\n                  Shiny.onInputChange('current_node_id', nodes.nodes);\n                  ;}"}},"evals":["events.select"],"jsHooks":[]}</script>
+<script type="application/htmlwidget-sizing" data-for="htmlwidget-14962b813dc0ba32dd9b">{"viewer":{"width":"100%","height":"800px","padding":15,"fill":false},"browser":{"width":"100%","height":"800px","padding":40,"fill":false}}</script>
 </body>
 </html>
