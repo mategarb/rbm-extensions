@@ -8,22 +8,41 @@ date: "2025-01-11"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r block1, echo = T, results = 'hide', message=FALSE, warning=FALSE}
+library(R.ROSETTA)
+library(igraph)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+# gene expression data
+out_jon <- rosetta(autcon)
+g = graph.data.frame(as.data.frame(do.call(rbind, strsplit(unique(out_jon$main$features[which(out_jon$main$pValue<0.001)]),","))))
+g = simplify(g)
 
-```{r cars}
-summary(cars)
+# indegree of our graph
+ind = degree(g, v = V(g), mode = c("in"),
+       loops = FALSE)
+
+# outdegree of our graph
+oud = degree(g, v = V(g), mode = c("out"),
+       loops = FALSE)
 ```
 
-## Including Plots
+```{r block2, echo=T}
+# average indegree of nodes in the graph
+mean(ind[ind>0])
+# normalized average indegree of nodes in the graph
+mean(ind)/length(ind[ind>0])
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+# average outdegree of nodes in the graph
+mean(oud[oud>0])
+# normalized average outdegree of nodes in the graph
+mean(oud)/length(oud[oud>0])
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r block3, echo=T, warning=FALSE}
+plot(g, layout=layout_as_tree, edge.arrow.size=0.5,vertex.label=NA)
+
+plot.igraph(g,vertex.size=6,edge.arrow.size=0.5,vertex.label=NA,
+            layout=layout.fruchterman.reingold(g, niter=10000))
+```
+

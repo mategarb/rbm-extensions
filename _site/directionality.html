@@ -270,33 +270,38 @@ $(document).ready(function () {
 </div>
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting
-syntax for authoring HTML, PDF, and MS Word documents. For more details
-on using R Markdown see <a href="http://rmarkdown.rstudio.com"
-class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be
-generated that includes both content as well as the output of any
-embedded R code chunks within the document. You can embed an R code
-chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
-</div>
-<div id="including-plots" class="section level2">
-<h2>Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="directionality_files/figure-html/pressure-1.png" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the
-code chunk to prevent printing of the R code that generated the
-plot.</p>
-</div>
+<pre class="r"><code>library(R.ROSETTA)
+library(igraph)
+
+# gene expression data
+out_jon &lt;- rosetta(autcon)
+g = graph.data.frame(as.data.frame(do.call(rbind, strsplit(unique(out_jon$main$features[which(out_jon$main$pValue&lt;0.001)]),&quot;,&quot;))))
+g = simplify(g)
+
+# indegree of our graph
+ind = degree(g, v = V(g), mode = c(&quot;in&quot;),
+       loops = FALSE)
+
+# outdegree of our graph
+oud = degree(g, v = V(g), mode = c(&quot;out&quot;),
+       loops = FALSE)</code></pre>
+<pre class="r"><code># average indegree of nodes in the graph
+mean(ind[ind&gt;0])</code></pre>
+<pre><code>## [1] 1.6</code></pre>
+<pre class="r"><code># normalized average indegree of nodes in the graph
+mean(ind)/length(ind[ind&gt;0])</code></pre>
+<pre><code>## [1] 0.06666667</code></pre>
+<pre class="r"><code># average outdegree of nodes in the graph
+mean(oud[oud&gt;0])</code></pre>
+<pre><code>## [1] 2.666667</code></pre>
+<pre class="r"><code># normalized average outdegree of nodes in the graph
+mean(oud)/length(oud[oud&gt;0])</code></pre>
+<pre><code>## [1] 0.1111111</code></pre>
+<pre class="r"><code>plot(g, layout=layout_as_tree, edge.arrow.size=0.5,vertex.label=NA)</code></pre>
+<p><img src="directionality_files/figure-html/block3-1.png" width="672" /></p>
+<pre class="r"><code>plot.igraph(g,vertex.size=6,edge.arrow.size=0.5,vertex.label=NA,
+            layout=layout.fruchterman.reingold(g, niter=10000))</code></pre>
+<p><img src="directionality_files/figure-html/block3-2.png" width="672" /></p>
 
 
 
