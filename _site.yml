@@ -3,8 +3,8 @@ navbar:
   title: "RBM extensions"
   left:
     - text: "Home"
-      href: index.html
+      href: _site/index.html
     - text: "Single-cell data"
-      href: scdata.html
+      href: _site/scdata.html
     - text: "Directionality"
-      href: directionality.html
+      href: _site/directionality.html
