@@ -1,5 +1,5 @@
 ---
-title: "RBM extensions"
+title: "Rule-based model (RBM) extensions"
 output: html_document
 ---
 
