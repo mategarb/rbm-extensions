@@ -11,7 +11,7 @@
 
 
 
-<title>Inferring directionality of rule-based models</title>
+<title>Inferring directionality for rule-based models built from gene expression data</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -263,8 +263,8 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Inferring directionality of rule-based
-models</h1>
+<h1 class="title toc-ignore">Inferring directionality for rule-based
+models built from gene expression data</h1>
 
 </div>
 
@@ -277,6 +277,7 @@ out_jon &lt;- rosetta(autcon)
 g = graph.data.frame(as.data.frame(do.call(rbind, strsplit(unique(out_jon$main$features[which(out_jon$main$pValue&lt;0.001)]),&quot;,&quot;))))
 g = simplify(g)
 
+# the assumption: outdegree &gt; indegree, in gene expression data
 # indegree of our graph
 ind = degree(g, v = V(g), mode = c(&quot;in&quot;),
        loops = FALSE)
