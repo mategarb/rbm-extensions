@@ -1,7 +1,6 @@
 ---
 title: "RBM extensions"
 output: html_document
-date: "2025-01-11"
 ---
 
 ## This website contains:
@@ -10,11 +9,11 @@ date: "2025-01-11"
 
 ## Prerequisits:
 - R / RStudio
-- installation of R packages: R.ROSETTA, igraph, VisuNet, Seurat
+- Installing following R packages: R.ROSETTA, igraph, VisuNet, Seurat, biomaRt, AnnotationDbi, org.Mm.eg.db, fitdistrplus, tidyverse, ggplot2, ggpubr, ggplotify, dplyr
 
-## R.ROSETTA
+### R.ROSETTA
 https://komorowskilab.github.io/R.ROSETTA/index.html
 
-## VisuNet
+### VisuNet
 https://komorowskilab.github.io/VisuNet/
 

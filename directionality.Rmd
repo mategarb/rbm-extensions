@@ -1,7 +1,6 @@
 ---
-title: "directionality"
+title: "Inferring directionality of rule-based models"
 output: html_document
-date: "2025-01-11"
 ---
 
 ```{r setup, include=FALSE}

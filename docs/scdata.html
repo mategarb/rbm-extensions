@@ -10,9 +10,8 @@
 
 
 
-<meta name="date" content="2025-01-11" />
 
-<title>scdata</title>
+<title>Rule-based model of single-cell RNA-seq data</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -264,12 +263,23 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">scdata</h1>
-<h4 class="date">2025-01-11</h4>
+<h1 class="title toc-ignore">Rule-based model of single-cell RNA-seq
+data</h1>
 
 </div>
 
 
+<div id="data" class="section level2">
+<h2>Data</h2>
+<ul>
+<li><p>Single cell data (Lee et al., 2022) are publicly available at: <a
+href="https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-10371/results?plotType=UMAP&amp;plotOption=20&amp;k=6"
+class="uri">https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-10371/results?plotType=UMAP&amp;plotOption=20&amp;k=6</a></p></li>
+<li><p>The Seurat part is based on the following tutorial: <a
+href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html"
+class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial.html</a></p></li>
+</ul>
+</div>
 <div id="loading-libraries-and-data" class="section level2">
 <h2>Loading libraries and data</h2>
 <pre class="r"><code>library(R.ROSETTA)
@@ -283,7 +293,7 @@ library(ggplot2)
 library(ggpubr)
 library(ggplotify)
 library(dplyr)
-# single cell data (Lee et al., 2022) https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-10371/results?plotType=UMAP&amp;plotOption=20&amp;k=6
+
 path = &#39;/Users/matga374/Downloads/E-MTAB-10371-normalised-files/E-MTAB-10371.aggregated_filtered_normalised_counts.mtx&#39;
 expression_matrix &lt;- ReadMtx(
   mtx = path,

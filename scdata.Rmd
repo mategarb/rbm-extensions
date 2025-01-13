@@ -1,12 +1,17 @@
 ---
-title: "scdata"
+title: "Rule-based model of single-cell RNA-seq data"
 output: html_document
-date: "2025-01-11"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+## Data
+
+- Single cell data (Lee et al., 2022) are publicly available at: https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-10371/results?plotType=UMAP&plotOption=20&k=6
+
+- The Seurat part is based on the following tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial.html
 
 ## Loading libraries and data 
 ```{r block1, echo=T, results = 'hide', message=FALSE, warning=FALSE}
@@ -21,7 +26,7 @@ library(ggplot2)
 library(ggpubr)
 library(ggplotify)
 library(dplyr)
-# single cell data (Lee et al., 2022) https://www.ebi.ac.uk/gxa/sc/experiments/E-MTAB-10371/results?plotType=UMAP&plotOption=20&k=6
+
 path = '/Users/matga374/Downloads/E-MTAB-10371-normalised-files/E-MTAB-10371.aggregated_filtered_normalised_counts.mtx'
 expression_matrix <- ReadMtx(
   mtx = path,
