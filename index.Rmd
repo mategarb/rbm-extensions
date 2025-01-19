@@ -5,11 +5,11 @@ output: html_document
 
 ## This website contains:
 - a tutorial for running rule-based learning with single-cell transcriptions data
-- a snipet that tests scale-freeness of GRNs constructed with RBMs
+- a code that investigates the scale-freeness of GRNs constructed with RBMs
 
 ## Prerequisits:
 - R / RStudio
-- Installing following R packages: R.ROSETTA, igraph, VisuNet, Seurat, biomaRt, AnnotationDbi, org.Mm.eg.db, fitdistrplus, tidyverse, ggplot2, ggpubr, ggplotify, dplyr
+- Installing following R packages: R.ROSETTA, VisuNet, Seurat, biomaRt, AnnotationDbi, org.Mm.eg.db, fitdistrplus, poweRlaw, tidyverse, ggplot2, ggpubr, ggplotify, dplyr
 
 ### R.ROSETTA
 https://komorowskilab.github.io/R.ROSETTA/index.html

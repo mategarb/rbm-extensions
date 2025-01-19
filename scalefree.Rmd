@@ -26,7 +26,7 @@ out_ge <- rosetta(autcon, reducer = "Genetic", pAdjustMethod = "fdr")
 vals <- unname(table(unlist(strsplit(out_jon$main$feature[which(out_jon$main$pValue<0.05)], ","))))
 freqs <- table(vals)
   
-descdist(vals %>% as.numeric, discrete = FALSE,obs.col = "#FF5D1B")
+descdist(vals %>% as.numeric, discrete = FALSE,obs.col = "#FF5D1B", boot = 100)
 
 
 df1 <- data.frame(degrees = as.numeric(freqs %>% names), freqs = as.numeric(freqs %>% unname))
@@ -73,7 +73,7 @@ bs_p$gof
 vals <- unname(table(unlist(strsplit(out_ge$main$features[which(out_ge$main$pValue<0.01)], ","))))
 freqs <- table(vals)
 
-descdist(vals %>% as.numeric, discrete = FALSE, obs.col = "#FF5D1B")
+descdist(vals %>% as.numeric, discrete = FALSE, obs.col = "#FF5D1B", boot = 100)
 
 df1 <- data.frame(degrees = as.numeric(freqs %>% names), freqs = as.numeric(freqs %>% unname))
 

@@ -153,7 +153,7 @@ rls = rls$features[which(rls$coverageRHS>0.2)]
 vals <- unname(table(unlist(strsplit(rls[grep(",",rls)], ","))))
 freqs <- table(vals)
 
-descdist(vals %>% as.numeric, discrete = FALSE,obs.col = "#FF5D1B")
+descdist(vals %>% as.numeric, discrete = FALSE,obs.col = "#FF5D1B", boot = 100)
 ```
 
 ## The degree distribution of network

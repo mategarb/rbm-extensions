@@ -5747,7 +5747,7 @@ rls = rls$features[which(rls$coverageRHS&gt;0.2)]
 vals &lt;- unname(table(unlist(strsplit(rls[grep(&quot;,&quot;,rls)], &quot;,&quot;))))
 freqs &lt;- table(vals)
 
-descdist(vals %&gt;% as.numeric, discrete = FALSE,obs.col = &quot;#FF5D1B&quot;)</code></pre>
+descdist(vals %&gt;% as.numeric, discrete = FALSE,obs.col = &quot;#FF5D1B&quot;, boot = 100)</code></pre>
 <p><img src="scdata_files/figure-html/block9-1.png" width="672" /></p>
 </div>
 <div id="the-degree-distribution-of-network" class="section level2">

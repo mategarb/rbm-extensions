@@ -292,7 +292,7 @@ out_ge &lt;- rosetta(autcon, reducer = &quot;Genetic&quot;, pAdjustMethod = &quo
 vals &lt;- unname(table(unlist(strsplit(out_jon$main$feature[which(out_jon$main$pValue&lt;0.05)], &quot;,&quot;))))
 freqs &lt;- table(vals)
   
-descdist(vals %&gt;% as.numeric, discrete = FALSE,obs.col = &quot;#FF5D1B&quot;)</code></pre>
+descdist(vals %&gt;% as.numeric, discrete = FALSE,obs.col = &quot;#FF5D1B&quot;, boot = 100)</code></pre>
 <p><img src="scalefree_files/figure-html/block1-1.png" width="672" /></p>
 <pre><code>## summary statistics
 ## ------
@@ -339,7 +339,7 @@ plot(jitter(bs$bootstraps[, 2], factor = 1.2), bs$bootstraps[, 3], pch = 19, col
 
 # P value
 bs_p$p</code></pre>
-<pre><code>## [1] 0.457</code></pre>
+<pre><code>## [1] 0.433</code></pre>
 <pre class="r"><code># Goodness of fit
 bs_p$gof</code></pre>
 <pre><code>## [1] 0.1213908</code></pre>
@@ -347,7 +347,7 @@ bs_p$gof</code></pre>
 vals &lt;- unname(table(unlist(strsplit(out_ge$main$features[which(out_ge$main$pValue&lt;0.01)], &quot;,&quot;))))
 freqs &lt;- table(vals)
 
-descdist(vals %&gt;% as.numeric, discrete = FALSE, obs.col = &quot;#FF5D1B&quot;)</code></pre>
+descdist(vals %&gt;% as.numeric, discrete = FALSE, obs.col = &quot;#FF5D1B&quot;, boot = 100)</code></pre>
 <p><img src="scalefree_files/figure-html/block1-5.png" width="672" /></p>
 <pre><code>## summary statistics
 ## ------
@@ -394,7 +394,7 @@ plot(jitter(bs$bootstraps[, 2], factor = 1.2), bs$bootstraps[, 3], pch = 19, col
 
 # P value
 bs_p$p</code></pre>
-<pre><code>## [1] 0.187</code></pre>
+<pre><code>## [1] 0.155</code></pre>
 <pre class="r"><code># Goodness of fit
 bs_p$gof</code></pre>
 <pre><code>## [1] 0.1245143</code></pre>
