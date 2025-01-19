@@ -1,11 +1,11 @@
-name: "rbm-extensions"
+name: "rbm-grn"
 output_dir: "docs"
 navbar:
-  title: "RBM extensions"
+  title: "RBMs for GRN inference"
   left:
     - text: "Home"
       href: index.html
     - text: "Single-cell data"
       href: scdata.html
-    - text: "Directionality"
-      href: directionality.html
+    - text: "Scale-free analysis"
+      href: scalefree.html

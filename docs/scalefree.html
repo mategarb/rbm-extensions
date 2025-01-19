@@ -11,7 +11,7 @@
 
 
 
-<title>Inferring directionality for rule-based models built from gene expression data</title>
+<title>Scale-freeness of networks from rule-based models</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -238,7 +238,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">RBM extensions</a>
+      <a class="navbar-brand" href="index.html">RBMs for GRN inference</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -249,7 +249,7 @@ $(document).ready(function () {
   <a href="scdata.html">Single-cell data</a>
 </li>
 <li>
-  <a href="directionality.html">Directionality</a>
+  <a href="scalefree.html">Scale-free analysis</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -263,45 +263,142 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Inferring directionality for rule-based
-models built from gene expression data</h1>
+<h1 class="title toc-ignore">Scale-freeness of networks from rule-based
+models</h1>
 
 </div>
 
 
+<div id="data" class="section level2">
+<h2>Data</h2>
+<ul>
+<li>In this part, example gene expression data set included in R.ROSETTA
+is used.</li>
+</ul>
+</div>
+<div id="testing-scale-freeness-for-johnson-and-genetic-reducers"
+class="section level2">
+<h2>Testing scale-freeness for Johnson and Genetic reducers</h2>
 <pre class="r"><code>library(R.ROSETTA)
-library(igraph)
+library(fitdistrplus)
+library(ggplot2)
+library(poweRlaw)
+library(tidyverse)
 
-# gene expression data
 out_jon &lt;- rosetta(autcon)
-g = graph.data.frame(as.data.frame(do.call(rbind, strsplit(unique(out_jon$main$features[which(out_jon$main$pValue&lt;0.001)]),&quot;,&quot;))))
-g = simplify(g)
+out_ge &lt;- rosetta(autcon, reducer = &quot;Genetic&quot;, pAdjustMethod = &quot;fdr&quot;)
 
-# the assumption: outdegree &gt; indegree, in gene expression data
-# indegree of our graph
-ind = degree(g, v = V(g), mode = c(&quot;in&quot;),
-       loops = FALSE)
+#### Johnson reducer
+vals &lt;- unname(table(unlist(strsplit(out_jon$main$feature[which(out_jon$main$pValue&lt;0.05)], &quot;,&quot;))))
+freqs &lt;- table(vals)
+  
+descdist(vals %&gt;% as.numeric, discrete = FALSE,obs.col = &quot;#FF5D1B&quot;)</code></pre>
+<p><img src="scalefree_files/figure-html/block1-1.png" width="672" /></p>
+<pre><code>## summary statistics
+## ------
+## min:  1   max:  22 
+## median:  6 
+## mean:  7.628571 
+## estimated sd:  6.010215 
+## estimated skewness:  0.7329735 
+## estimated kurtosis:  2.575866</code></pre>
+<pre class="r"><code>df1 &lt;- data.frame(degrees = as.numeric(freqs %&gt;% names), freqs = as.numeric(freqs %&gt;% unname))
 
-# outdegree of our graph
-oud = degree(g, v = V(g), mode = c(&quot;out&quot;),
-       loops = FALSE)</code></pre>
-<pre class="r"><code># average indegree of nodes in the graph
-mean(ind[ind&gt;0])</code></pre>
-<pre><code>## [1] 1.6</code></pre>
-<pre class="r"><code># normalized average indegree of nodes in the graph
-mean(ind)/length(ind[ind&gt;0])</code></pre>
-<pre><code>## [1] 0.06666667</code></pre>
-<pre class="r"><code># average outdegree of nodes in the graph
-mean(oud[oud&gt;0])</code></pre>
-<pre><code>## [1] 2.666667</code></pre>
-<pre class="r"><code># normalized average outdegree of nodes in the graph
-mean(oud)/length(oud[oud&gt;0])</code></pre>
-<pre><code>## [1] 0.1111111</code></pre>
-<pre class="r"><code>plot(g, layout=layout_as_tree, edge.arrow.size=0.5,vertex.label=NA)</code></pre>
-<p><img src="directionality_files/figure-html/block3-1.png" width="672" /></p>
-<pre class="r"><code>plot.igraph(g,vertex.size=6,edge.arrow.size=0.5,vertex.label=NA,
-            layout=layout.fruchterman.reingold(g, niter=10000))</code></pre>
-<p><img src="directionality_files/figure-html/block3-2.png" width="672" /></p>
+  ggplot(df1, aes(x = degrees, y = freqs)) +
+  geom_point(colour = &quot;black&quot;, size = 5,alpha = 7/10) +
+  scale_x_continuous(&quot;Degree&quot;,
+                     trans = &quot;log10&quot;) +
+  scale_y_continuous(&quot;Frequency&quot;,
+                     trans = &quot;log10&quot;) +
+  ggtitle(&quot;&quot;) +
+  theme_bw()+
+  theme(text = element_text(size=20))</code></pre>
+<p><img src="scalefree_files/figure-html/block1-2.png" width="672" /></p>
+<pre class="r"><code># tests for power law
+data_pl &lt;- displ$new(vals)
+
+data_pl$getXmin()</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>data_pl$getPars()</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>data_pl$setXmin(5)
+data_pl$setPars(2)
+est = estimate_pars(data_pl)
+est = estimate_xmin(data_pl)
+data_pl$setXmin(est)
+
+# Data CDF (Cumulative density function)
+plot(data_pl, pch = 19, col = &quot;#5f5f5f&quot;, xlab=&quot;&quot;, ylab=&quot;CDF&quot;)
+lines(data_pl, col=&quot;#9cd700&quot;, lwd=3)</code></pre>
+<p><img src="scalefree_files/figure-html/block1-3.png" width="672" /></p>
+<pre class="r"><code># Bivariate scatter plot
+bs = bootstrap(data_pl, no_of_sims = 1000, threads = 2)
+plot(jitter(bs$bootstraps[, 2], factor = 1.2), bs$bootstraps[, 3], pch = 19, col = &quot;#5f5f5f&quot;, ylab=expression(alpha), xlab=expression(&quot;x&quot;[min]))</code></pre>
+<p><img src="scalefree_files/figure-html/block1-4.png" width="672" /></p>
+<pre class="r"><code>bs_p = bootstrap_p(data_pl, no_of_sims = 1000, threads = 2)
+
+# P value
+bs_p$p</code></pre>
+<pre><code>## [1] 0.457</code></pre>
+<pre class="r"><code># Goodness of fit
+bs_p$gof</code></pre>
+<pre><code>## [1] 0.1213908</code></pre>
+<pre class="r"><code>#### Genetic reducer
+vals &lt;- unname(table(unlist(strsplit(out_ge$main$features[which(out_ge$main$pValue&lt;0.01)], &quot;,&quot;))))
+freqs &lt;- table(vals)
+
+descdist(vals %&gt;% as.numeric, discrete = FALSE, obs.col = &quot;#FF5D1B&quot;)</code></pre>
+<p><img src="scalefree_files/figure-html/block1-5.png" width="672" /></p>
+<pre><code>## summary statistics
+## ------
+## min:  1   max:  19 
+## median:  3 
+## mean:  4.333333 
+## estimated sd:  4.582576 
+## estimated skewness:  1.888856 
+## estimated kurtosis:  6.300659</code></pre>
+<pre class="r"><code>df1 &lt;- data.frame(degrees = as.numeric(freqs %&gt;% names), freqs = as.numeric(freqs %&gt;% unname))
+
+ ggplot(df1, aes(x = degrees, y = freqs)) +
+  geom_point(colour = &quot;black&quot;, size = 5,alpha = 7/10) +
+  scale_x_continuous(&quot;Degree&quot;,
+                     trans = &quot;log10&quot;) +
+  scale_y_continuous(&quot;Frequency&quot;,
+                     trans = &quot;log10&quot;) +
+  ggtitle(&quot;&quot;) +
+  theme_bw()+
+  theme(text = element_text(size=18))</code></pre>
+<p><img src="scalefree_files/figure-html/block1-6.png" width="672" /></p>
+<pre class="r"><code># tests for power law
+data_pl &lt;- displ$new(vals)
+
+data_pl$getXmin()</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>data_pl$getPars()</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>data_pl$setXmin(5)
+data_pl$setPars(2)
+est = estimate_pars(data_pl)
+est = estimate_xmin(data_pl)
+data_pl$setXmin(est)
+
+# Data CDF (Cumulative density function)
+plot(data_pl, pch = 19, col = &quot;#5f5f5f&quot;, xlab=&quot;&quot;, ylab=&quot;CDF&quot;)
+lines(data_pl, col=&quot;#9cd700&quot;, lwd=3)</code></pre>
+<p><img src="scalefree_files/figure-html/block1-7.png" width="672" /></p>
+<pre class="r"><code># Bivariate scatter plot
+bs = bootstrap(data_pl, no_of_sims = 1000, threads = 2)
+plot(jitter(bs$bootstraps[, 2], factor = 1.2), bs$bootstraps[, 3], pch = 19, col = &quot;#5f5f5f&quot;, ylab=expression(alpha), xlab=expression(&quot;x&quot;[min]))</code></pre>
+<p><img src="scalefree_files/figure-html/block1-8.png" width="672" /></p>
+<pre class="r"><code>bs_p = bootstrap_p(data_pl, no_of_sims = 1000, threads = 2)
+
+# P value
+bs_p$p</code></pre>
+<pre><code>## [1] 0.187</code></pre>
+<pre class="r"><code># Goodness of fit
+bs_p$gof</code></pre>
+<pre><code>## [1] 0.1245143</code></pre>
+</div>
 
 
 

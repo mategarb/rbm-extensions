@@ -1,11 +1,11 @@
 ---
-title: "Rule-based models (RBMs) extensions"
+title: "Rule-based models (RBMs) for gene regulatory network (GRN) inference"
 output: html_document
 ---
 
 ## This website contains:
 - a tutorial for running rule-based learning with single-cell transcriptions data
-- a snipet that allows to assume direction for interactions in rule-based model
+- a snipet that tests scale-freeness of GRNs constructed with RBMs
 
 ## Prerequisits:
 - R / RStudio

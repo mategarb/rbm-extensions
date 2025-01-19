@@ -1,0 +1,117 @@
+---
+title: "Scale-freeness of networks from rule-based models"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data
+
+- In this part, example gene expression data set included in R.ROSETTA is used.
+
+## Testing scale-freeness for Johnson and Genetic reducers
+```{r block1, echo=T, message=FALSE, warning=FALSE}
+library(R.ROSETTA)
+library(fitdistrplus)
+library(ggplot2)
+library(poweRlaw)
+library(tidyverse)
+
+out_jon <- rosetta(autcon)
+out_ge <- rosetta(autcon, reducer = "Genetic", pAdjustMethod = "fdr")
+
+#### Johnson reducer
+vals <- unname(table(unlist(strsplit(out_jon$main$feature[which(out_jon$main$pValue<0.05)], ","))))
+freqs <- table(vals)
+  
+descdist(vals %>% as.numeric, discrete = FALSE,obs.col = "#FF5D1B")
+
+
+df1 <- data.frame(degrees = as.numeric(freqs %>% names), freqs = as.numeric(freqs %>% unname))
+
+  ggplot(df1, aes(x = degrees, y = freqs)) +
+  geom_point(colour = "black", size = 5,alpha = 7/10) +
+  scale_x_continuous("Degree",
+                     trans = "log10") +
+  scale_y_continuous("Frequency",
+                     trans = "log10") +
+  ggtitle("") +
+  theme_bw()+
+  theme(text = element_text(size=20))
+
+# tests for power law
+data_pl <- displ$new(vals)
+
+data_pl$getXmin()
+data_pl$getPars()
+data_pl$setXmin(5)
+data_pl$setPars(2)
+est = estimate_pars(data_pl)
+est = estimate_xmin(data_pl)
+data_pl$setXmin(est)
+
+# Data CDF (Cumulative density function)
+plot(data_pl, pch = 19, col = "#5f5f5f", xlab="", ylab="CDF")
+lines(data_pl, col="#9cd700", lwd=3)
+
+# Bivariate scatter plot
+bs = bootstrap(data_pl, no_of_sims = 1000, threads = 2)
+plot(jitter(bs$bootstraps[, 2], factor = 1.2), bs$bootstraps[, 3], pch = 19, col = "#5f5f5f", ylab=expression(alpha), xlab=expression("x"[min]))
+
+bs_p = bootstrap_p(data_pl, no_of_sims = 1000, threads = 2)
+
+# P value
+bs_p$p
+
+# Goodness of fit
+bs_p$gof
+
+
+#### Genetic reducer
+vals <- unname(table(unlist(strsplit(out_ge$main$features[which(out_ge$main$pValue<0.01)], ","))))
+freqs <- table(vals)
+
+descdist(vals %>% as.numeric, discrete = FALSE, obs.col = "#FF5D1B")
+
+df1 <- data.frame(degrees = as.numeric(freqs %>% names), freqs = as.numeric(freqs %>% unname))
+
+ ggplot(df1, aes(x = degrees, y = freqs)) +
+  geom_point(colour = "black", size = 5,alpha = 7/10) +
+  scale_x_continuous("Degree",
+                     trans = "log10") +
+  scale_y_continuous("Frequency",
+                     trans = "log10") +
+  ggtitle("") +
+  theme_bw()+
+  theme(text = element_text(size=18))
+ 
+# tests for power law
+data_pl <- displ$new(vals)
+
+data_pl$getXmin()
+data_pl$getPars()
+data_pl$setXmin(5)
+data_pl$setPars(2)
+est = estimate_pars(data_pl)
+est = estimate_xmin(data_pl)
+data_pl$setXmin(est)
+
+# Data CDF (Cumulative density function)
+plot(data_pl, pch = 19, col = "#5f5f5f", xlab="", ylab="CDF")
+lines(data_pl, col="#9cd700", lwd=3)
+
+# Bivariate scatter plot
+bs = bootstrap(data_pl, no_of_sims = 1000, threads = 2)
+plot(jitter(bs$bootstraps[, 2], factor = 1.2), bs$bootstraps[, 3], pch = 19, col = "#5f5f5f", ylab=expression(alpha), xlab=expression("x"[min]))
+
+bs_p = bootstrap_p(data_pl, no_of_sims = 1000, threads = 2)
+
+# P value
+bs_p$p
+
+# Goodness of fit
+bs_p$gof
+
+```
