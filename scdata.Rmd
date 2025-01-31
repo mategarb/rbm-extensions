@@ -170,3 +170,44 @@ df1 <- data.frame(degrees = as.numeric(freqs %>% names), freqs = as.numeric(freq
   theme_bw()+
   theme(text = element_text(size=18))
 ```
+
+## Enrichment analysis of cluster 4
+```{r block10, echo=T, results = 'hide', message=FALSE, warning=FALSE}
+library('org.Mm.eg.db')
+library(clusterProfiler)
+library(ReactomePA)
+
+rls = out_jon_sc$main[which(out_jon_sc$main$pValue<0.05),]
+rls = rls[which(rls$accuracyRHS>0.55),]
+rls = rls[which(rls$coverageRHS>0.2),]
+rlsc4 <- rls[which(rls$decision=="cluster_4"),]
+
+gns = strsplit(rlsc4$features,",") %>% unlist %>% unique
+
+entrez_genes <- mapIds(org.Mm.eg.db, gns, column='ENSEMBL', keytype='SYMBOL', multiVals='first')
+entrz = unname(entrez_genes)
+entrz[which(is.na(entrz))] <- names(entrez_genes)[which(is.na(entrz))]
+
+ensmbl_genes <- mapIds(org.Mm.eg.db, entrz, column='ENTREZID', keytype='ENSEMBL', multiVals='first')
+gns_all = strsplit(rls$features,",") %>% unlist %>% unique
+ensmbl_genes_all <- mapIds(org.Mm.eg.db, gns_all, column='ENTREZID', keytype='SYMBOL', multiVals='first')
+
+lstg = unname(ensmbl_genes)
+lstg = lstg[-which(is.na(lstg))]
+
+ego <- enrichGO(gene          = lstg,
+                OrgDb         = org.Mm.eg.db,
+                ont           = "BP",
+                pAdjustMethod = "BH",
+                pvalueCutoff  = 0.05,
+                qvalueCutoff  = 0.05,
+                readable      = TRUE)
+head(ego)
+barplot(ego, showCategory=10)+ ggtitle("GO:BP")  + theme(text = element_text(size = 12))
+heatplot(ego, showCategory=10)
+
+reac <- enrichPathway(gene=lstg, pvalueCutoff = 0.05, readable=TRUE, organism = "mouse")
+barplot(reac, showCategory=10)+ ggtitle("Reactome")  + theme(text = element_text(size = 12))
+heatplot(reac, showCategory=10)
+
+```

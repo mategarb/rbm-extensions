@@ -5765,6 +5765,48 @@ descdist(vals %&gt;% as.numeric, discrete = FALSE,obs.col = &quot;#FF5D1B&quot;,
   theme(text = element_text(size=18))</code></pre>
 <p><img src="scdata_files/figure-html/block99-1.png" width="672" /></p>
 </div>
+<div id="enrichment-analysis-of-cluster-4" class="section level2">
+<h2>Enrichment analysis of cluster 4</h2>
+<pre class="r"><code>library(&#39;org.Mm.eg.db&#39;)
+library(clusterProfiler)
+library(ReactomePA)
+
+rls = out_jon_sc$main[which(out_jon_sc$main$pValue&lt;0.05),]
+rls = rls[which(rls$accuracyRHS&gt;0.55),]
+rls = rls[which(rls$coverageRHS&gt;0.2),]
+rlsc4 &lt;- rls[which(rls$decision==&quot;cluster_4&quot;),]
+
+gns = strsplit(rlsc4$features,&quot;,&quot;) %&gt;% unlist %&gt;% unique
+
+entrez_genes &lt;- mapIds(org.Mm.eg.db, gns, column=&#39;ENSEMBL&#39;, keytype=&#39;SYMBOL&#39;, multiVals=&#39;first&#39;)
+entrz = unname(entrez_genes)
+entrz[which(is.na(entrz))] &lt;- names(entrez_genes)[which(is.na(entrz))]
+
+ensmbl_genes &lt;- mapIds(org.Mm.eg.db, entrz, column=&#39;ENTREZID&#39;, keytype=&#39;ENSEMBL&#39;, multiVals=&#39;first&#39;)
+gns_all = strsplit(rls$features,&quot;,&quot;) %&gt;% unlist %&gt;% unique
+ensmbl_genes_all &lt;- mapIds(org.Mm.eg.db, gns_all, column=&#39;ENTREZID&#39;, keytype=&#39;SYMBOL&#39;, multiVals=&#39;first&#39;)
+
+lstg = unname(ensmbl_genes)
+lstg = lstg[-which(is.na(lstg))]
+
+ego &lt;- enrichGO(gene          = lstg,
+                OrgDb         = org.Mm.eg.db,
+                ont           = &quot;BP&quot;,
+                pAdjustMethod = &quot;BH&quot;,
+                pvalueCutoff  = 0.05,
+                qvalueCutoff  = 0.05,
+                readable      = TRUE)
+head(ego)
+barplot(ego, showCategory=10)+ ggtitle(&quot;GO:BP&quot;)  + theme(text = element_text(size = 12))</code></pre>
+<p><img src="scdata_files/figure-html/block10-1.png" width="672" /></p>
+<pre class="r"><code>heatplot(ego, showCategory=10)</code></pre>
+<p><img src="scdata_files/figure-html/block10-2.png" width="672" /></p>
+<pre class="r"><code>reac &lt;- enrichPathway(gene=lstg, pvalueCutoff = 0.05, readable=TRUE, organism = &quot;mouse&quot;)
+barplot(reac, showCategory=10)+ ggtitle(&quot;Reactome&quot;)  + theme(text = element_text(size = 12))</code></pre>
+<p><img src="scdata_files/figure-html/block10-3.png" width="672" /></p>
+<pre class="r"><code>heatplot(reac, showCategory=10)</code></pre>
+<p><img src="scdata_files/figure-html/block10-4.png" width="672" /></p>
+</div>
 
 
 
